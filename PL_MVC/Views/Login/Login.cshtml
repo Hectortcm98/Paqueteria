@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="~/Content/Login.css">
+</head>
+<body>
+
+    <div class="login-form">
+        <h2>Login</h2>
+        <form action="~/Login/Login" method="post" enctype="multipart/form-data">
+            <p class="login-text">
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-lock fa-stack-1x"></i>
+                </span>
+            </p>
+            <input type="text" class="login-username" autofocus="true" required="true" placeholder="Email" name="email" />
+            <input type="password" class="login-password" required="true" placeholder="Password" name="password" />
+            <input type="submit" name="Login" value="Login" class="login-submit" />
+        </form>
+        <a href="@Url.Action("SendEmail_1")" class="login-forgot-pass">forgot password?</a>
+    </div>
+
+    <div class="underlay-photo"></div>
+    <div class="underlay-black"></div>
+
+</body>
+</html>

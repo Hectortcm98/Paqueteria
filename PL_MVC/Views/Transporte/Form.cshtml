@@ -1,0 +1,91 @@
+﻿@model ML.Transporte
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div style="text-align: center;">
+    <h2>Datos de Transporte</h2>
+</div>
+
+<div style="text-align: right;">
+    <a href="@Url.Action("GetAllTransporte", "Transporte")" class="btn btn-primary float-right" id="btnRegresar">Regresar</a>
+</div>
+
+@using (Html.BeginForm("Form", "Transporte", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="text-align: center;">
+        <div style="display: inline-block; text-align: left;">
+
+            <!-- Campos de la izquierda -->
+
+
+            @Html.HiddenFor(model => model.IdTransporte)
+            @Html.HiddenFor(model => model.estatusTransporte.Estatus)
+
+
+
+
+            <div>
+                <label style="display: inline-block; width: 120px; text-align: right;">
+                    @Html.LabelFor(model => model.NumeroPlaca)
+                </label>
+                @Html.TextBoxFor(model => model.NumeroPlaca)
+
+            </div>
+
+            <div>
+                <label style="display: inline-block; width: 120px; text-align: right;">
+                    @Html.LabelFor(model => model.Modelo)
+                </label>
+                @Html.TextBoxFor(model => model.Modelo)
+            </div>
+
+
+            <div>
+                <label style="display: inline-block; width: 120px; text-align: right;">
+                    @Html.LabelFor(model => model.Marca)
+                </label>
+                @Html.TextBoxFor(model => model.Marca)
+            </div>
+
+
+
+
+
+
+
+            <div style="text-align: left;">
+                <!-- Campos de la derecha -->
+
+                <div>
+                    <label style="display: inline-block; width: 120px; text-align: right;">
+                        @Html.LabelFor(model => model.AñoFabricacion)
+                    </label>
+
+                    @Html.TextBoxFor(model => model.AñoFabricacion, new { @class = "", @placeholder = "AñoFabricacion", @type = "date" })
+
+                </div>
+
+                <div>
+                    <label style="display: inline-block; width: 120px; text-align: right;">
+                        @Html.LabelFor(model => model.estatusTransporte.IdEstatus)
+                    </label>
+                    @Html.TextBoxFor(model => model.estatusTransporte.IdEstatus)
+                </div>
+
+                @*<div>
+                        <label style="display: inline-block; width: 120px; text-align: right;">
+                            @Html.LabelFor(model => model.estatusTransporte.Estatus)
+                        </label>
+                        @Html.TextBoxFor(model => model.estatusTransporte.Estatus)
+                    </div>*@
+
+            </div>
+
+        </div>
+    </div><div style="text-align: center; margin-top: 20px;">
+        <button type="submit" style="padding: 5px 60px; font-size: 16px;">Save</button>
+    </div>
+}

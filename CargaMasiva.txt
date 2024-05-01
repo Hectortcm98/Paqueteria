@@ -1,0 +1,10 @@
+InstruccionEntrega|Peso|DireccionOrigen|DireccionEntrega|FechaEstimadaEntrega|NumeroGuia|CodigoQR
+Casa blanca|23.45|mexico|canada|2024-03-01|21
+Por el puente|23.45|mexico|canada|2024-03-01|22
+En la deportiva|23.45|mexico|canada|2024-03-01|23
+Cercas del metro|23.45|mexico|canada|2024-03-01|24
+En la casa de lola|23.45|mexico|canada|2024-03-01|25
+Por la esquina villaz|23.45|mexico|canada|2024-03-01|26
+En el mercado|23.45|mexico|canada|2024-03-01|27
+Casa color amarilla|23.45|mexico|canada|2024-03-01|28
+Por pachuca|23.45|mexico|canada|2024-03-01|29

@@ -1,0 +1,148 @@
+﻿@model ML.Paquete
+
+@{
+    ViewBag.Title = "Principal";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row justify-content-center" style="margin-bottom: 90px;">
+    <!-- Añade margen inferior al título -->
+    <div class="col-md-8">
+        <h2 style="text-align: center;">Rastreo y seguimiento de Paquetes</h2>
+    </div>
+</div>
+
+<script>
+    (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+        key: "AIzaSyCSKBDdPPlfca_zTwyxKiicRQn1qfgRjLw",
+        v: "weekly",
+    });
+</script>
+
+<div class="row justify-content-center">
+    <div class="col-md-4">
+        <form action="@Url.Action("Principal", "Principal")" method="post">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="codigo" placeholder="Introduce el código del paquete" required>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Rastrear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-3" style="width: calc(25% - 20px); margin-bottom: 20px;">
+            <div class="card" style="background-color: #B8F0FE">
+                <img src="~/Imagen/cajaCaje_1.png" class="card-img-top" alt="...">
+                <div class="card-body" style="background-color: #B8F0FE">
+                    <h5 class="card-title">Paquete: @Model.IdPaquete</h5>
+                    @Html.HiddenFor(Model => Model.IdPaquete)
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item fondo-azul-claro borde-azul-fuerte">Código:           @Model.CodigoQR</li>
+                        <li class="list-group-item">Instrucción:       @Model.InstruccionEntrega</li>
+                        <li class="list-group-item">Peso:             @Model.Peso</li>
+                        <li class="list-group-item">Número de guía:   @Model.NumeroGuia</li>
+                        <li class="list-group-item">Origen:           @Model.DireccionOrigen</li>
+                        <li class="list-group-item">Entrega:          @Model.DireccionEntrega</li>
+                        <li class="list-group-item">Fecha de Entrega: @Model.FechaEstimadaEntrega</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="map" class="border-top border-secondary border-3"></div>
+
+    <script>
+    function inicializarMapa() {
+        // Direcciones de origen y entrega del paquete
+        var direccionOrigen = "@Model.DireccionOrigen";
+        var direccionEntrega = "@Model.DireccionEntrega";
+
+        // Hacer una llamada a la API de geocodificación para obtener las coordenadas de origen
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': direccionOrigen }, function (results, status) {
+            if (status === 'OK') {
+                console.log('Coordenadas de origen:', results[0].geometry.location);
+                var coordenadasOrigen = results[0].geometry.location;
+
+                // Hacer una llamada a la API de geocodificación para obtener las coordenadas de entrega
+                geocoder.geocode({ 'address': direccionEntrega }, function (results, status) {
+                    if (status === 'OK') {
+                        console.log('Coordenadas de entrega:', results[0].geometry.location);
+                        var coordenadasEntrega = results[0].geometry.location;
+
+                        // Configurar el mapa con las coordenadas de origen
+                        var mapOptions = {
+                            center: coordenadasOrigen,
+                            zoom: 8
+                        };
+                        var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
+
+                        // Agregar marcadores para las ubicaciones de origen y entrega
+                        var markerOrigen = new google.maps.Marker({
+                            position: coordenadasOrigen,
+                            map: map,
+                            title: 'Ubicación de origen'
+                        });
+
+                        var markerEntrega = new google.maps.Marker({
+                            position: coordenadasEntrega,
+                            map: map,
+                            title: 'Ubicación de entrega'
+                        });
+                    } else {
+                        alert('La geocodificación de la dirección de entrega falló debido a: ' + status);
+                    }
+                });
+            } else {
+                alert('La geocodificación de la dirección de origen falló debido a: ' + status);
+            }
+        });
+    }
+    </script>
+
+
+
+
+}
+else if (!string.IsNullOrEmpty(Request.Form["codigo"]))
+{
+    <div class="row justify-content-center">
+        <div style="text-align: center;">
+            <img src="~/Imagen/ojo.png" alt="Imagen" style="width: 80px; height: auto;">
+            <div class="cloud">
+                <p style="color: aquamarine;">No se ha encontrado ningún paquete con este código.</p>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    body {
+        background-color: #89BCB0; /* Color de fondo deseado */
+    }
+
+    .cloud {
+        background-color: #AF3333;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+        .cloud p {
+            margin: 0;
+        }
+</style>
+
+
+
+
+
+

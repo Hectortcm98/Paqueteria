@@ -1,0 +1,182 @@
+﻿@model ML.Paquete
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Paquetes</h2>
+
+
+<div class="row offset-md-8"  >
+    <div class="col-md-7">
+        <input type="text" class="form-control" placeholder="Agregar nuevo paquete" readonly  >
+    </div>
+    <div class="col-md-2">
+        <a href="@Url.Action("Form", "Paquetes")" >
+            <img src="~/Imagen/signo-de-mas.png" style="width: 30px; height: 30px;" />
+        </a>
+    </div>
+</div>
+<br />
+
+<style>
+    body {
+        background-color: #89BCB0; /* Color de fondo deseado */
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    
+</style>
+
+
+
+@*<table class="table table- table-hover table-bordered border border-primary  border-3">
+
+        <thead class="table-secondary">
+            <tr class="text-center">
+                <th></th>
+                <th>Instruccion Entrega</th>
+                <th>Peso</th>
+                <th>Dirección de origuen </th>
+                <th>Dirección de entrega</th>
+                <th>Fecha de Entrega</th>
+                <th>Número de guía</th>
+                <th>CódigoQR</th>
+                <th></th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ML.Paquete paquete in Model.paqueteLista)
+            {
+
+
+
+
+
+                <tr class="text-center">
+                    <td>
+                        <a class="btn btn-secondary" style="background-color: #FFFFFF;" href="@Url.Action("Form", "Paquetes" , new { idPaquete = paquete.IdPaquete}) "> <img src="~/Imagen/editar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
+                    </td>
+                    <td>@paquete.InstruccionEntrega</td>
+                    <td>@paquete.Peso</td>
+                    <td>@paquete.DireccionOrigen</td>
+                    <td>@paquete.DireccionEntrega</td>
+                    <td>@paquete.FechaEstimadaEntrega</td>
+                    <td>@paquete.NumeroGuia</td>
+                    <td>@paquete.CodigoQR</td>
+
+
+                    <td>
+                        <a class="btn btn-primary" style="background-color: #FFFFFF;" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');"
+                           href="@Url.Action("Delete", "Paquetes", new { idPaquete = paquete.IdPaquete})"><img src="~/Imagen/eliminar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
+                    </td>
+                </tr>
+
+            }
+
+        </tbody>
+    </table>*@
+
+
+
+
+<div class="container">
+    <div class="row" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+        @foreach (ML.Paquete paquete in Model.paqueteLista)
+
+        {
+            <div class="col-md-3" style="width: calc(25% - 20px); margin-bottom: 20px;">
+                @using (Html.BeginForm("AddToSession", "EnvioPaquetes", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+                {
+                    <div class="card" style="background-color: #B8F0FE">
+                        <a class="btn " style="background-color: #B8F0FE; position: absolute; top: 4px; left: 5px;" href="@Url.Action("Form", "Paquetes", new { idPaquete = paquete.IdPaquete}) ">
+                            <img src="~/Imagen/editar.png" alt="Editar" style="width: 27px; height: 27px;" />
+                        </a>
+                        <!-- Icono a la derecha -->
+                        <a class="btn " style="background-color: #B8F0FE; position: absolute; top: 4px; right: 5px;" onclick="return confirm('¿Estás seguro que deseas eliminar este paquete?');"
+                           href="@Url.Action("Delete", "Paquetes", new { idPaquete = paquete.IdPaquete})">
+                            <img src="~/Imagen/eliminar.png" alt="Eliminar" style="width: 27px; height: 27px;" />
+                        </a>
+
+                        <img src="~/Imagen/cajaCaje_1.png" class="card-img-top" alt="...">
+
+                        <div class="card-body" style="background-color: #B8F0FE ">
+
+                            <h5 class="card-title">Paquete: @paquete.IdPaquete</h5>
+                            @Html.HiddenFor(Model => @paquete.IdPaquete)
+
+
+
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item fondo-azul-claro borde-azul-fuerte">Código:           @paquete.CodigoQR</li>
+                            <li class="list-group-item">Intrucción:       @paquete.InstruccionEntrega</li>
+                            <li class="list-group-item">Peso:             @paquete.Peso</li>
+                            <li class="list-group-item">Número de guía:   @paquete.NumeroGuia</li>
+                            <li class="list-group-item">Origen:           @paquete.DireccionOrigen</li>
+                            <li class="list-group-item">Entrega:          @paquete.DireccionEntrega</li>
+                            <li class="list-group-item">Fecha de Entrega: @paquete.FechaEstimadaEntrega</li>
+
+
+
+
+                            @*@Html.LabelFor(Model => Model.Repartidor, new { @for = "inputRol", @class = "form-label", style = "color: blue;" })*@
+                            @Html.DropDownListFor(Model => Model.Repartidor.IdRepartidor, new SelectList(Model.Repartidor.Repartidores, "IdRepartidor", "Nombre"), "Seleccione un Repartidor", new { @class = "form-control", style = "color: blue; background-color: lightblue;" })
+
+                        </ul>
+                        </div>
+
+                        
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn-outline-custom" style="font-size: 17px; padding: 3px 6px; margin: auto;">Asignar</button>
+                        </div>
+                       
+
+
+  
+
+                    </div>
+                    
+                }
+
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+
+    /* Botón antes de ser seleccionado */
+    .btn-outline-custom {
+        color: blue; /* Color de texto */
+        background-color: #B8F0FE; /* Fondo del botón antes de seleccionar */
+        border-color: #044657; /* Color del borde */
+    }
+
+        /* Botón al ser seleccionado (en este caso, al hacer hover) */
+        .btn-outline-custom:hover {
+            color: black; /* Color de texto al hacer hover */
+            background-color: #409392; /* Fondo del botón al hacer hover */
+            border-color: #214E4D; /* Color del borde al hacer hover */
+        }
+</style>
+
+<style>
+    /* borde de cuadro de codigo */
+    .fondo-azul-claro {
+        background-color: #ADD8E6; /* Azul claro */
+    }
+
+    .borde-azul-fuerte {
+        border: 2px solid #00008B; /* Azul oscuro */
+    }
+
+</style>
+
+
+
+
+

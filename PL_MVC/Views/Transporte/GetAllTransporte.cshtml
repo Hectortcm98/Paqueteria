@@ -1,0 +1,53 @@
+﻿@model  ML.Transporte
+@{
+    ViewBag.Title = "GetAllTransporte";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>GetAllTransporte</h2>
+
+<table class="table table- table-hover table-bordered border border-primary  border-3">
+
+    <thead class="table-secondary">
+        <tr class="text-center">
+            <th></th>
+            <th>NumeroPLaca</th>
+            <th>Modelo</th>
+            <th>Marca</th>
+            <th>AñoFabricacion</th>
+            <th>IdEstatus</th>
+            <th>Estatus</th>
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (ML.Transporte transporte in Model.Trasportes)
+        {
+            <tr class="text-center">
+                <td><a class="btn btn-secondary" style="background-color: #FFFFFF;" href="@Url.Action("Form", "Transporte" , new { idTransporte = transporte.IdTransporte}) "> <img src="~/Imagen/editar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
+                   </td>
+                <td>@transporte.NumeroPlaca</td>
+                <td>@transporte.Modelo</td>
+                <td>@transporte.Marca</td>
+                <td>@transporte.AñoFabricacion</td>
+                <td>@transporte.estatusTransporte.IdEstatus</td>
+                <td>@transporte.estatusTransporte.Estatus</td>
+
+
+                <td>
+                    <a class="btn btn-primary"  style="background-color: #FFFFFF;" onclick="return confirm('¿Estás seguro de que deseas eliminar este transporte?');"
+                       href="@Url.Action("Delete", "Transporte", new { idTransporte = transporte.IdTransporte})"><img src="~/Imagen/eliminar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
+                   
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    <div class="row">
+        <div class="col-md-12">
+            <a href="@Url.Action("Form", "Transporte")" class="btn btn-primary float-right">Agregar</a>
+        </div>
+    </div>

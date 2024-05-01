@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:59520/Paquetes.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System" />
+  <xs:import schemaLocation="http://localhost:59520/Paquetes.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/ML" />
+  <xs:element name="GetAll">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetAllResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="GetAllResult" type="q1:ValueTupleOfbooleanstringArrayOfPaqueteExceptionc_P_PmD6BT" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Add">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/ML" minOccurs="0" name="paquete" nillable="true" type="q2:Paquete" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="AddResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="AddResult" type="q3:ValueTupleOfbooleanstringPaqueteExceptionc_P_PmD6BT" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateEF">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/ML" minOccurs="0" name="paquete" nillable="true" type="q4:Paquete" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UpdateEFResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="UpdateEFResult" type="q5:ValueTupleOfbooleanstringPaqueteExceptionc_P_PmD6BT" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetById">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdPaquete" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="GetByIdResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="GetByIdResult" type="q6:ValueTupleOfbooleanstringPaqueteExceptionc_P_PmD6BT" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLINQ">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="IdPaquete" type="xs:int" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DeleteLINQResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/System" minOccurs="0" name="DeleteLINQResult" type="q7:ValueTupleOfbooleanstringExceptionxJG7nVzP" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

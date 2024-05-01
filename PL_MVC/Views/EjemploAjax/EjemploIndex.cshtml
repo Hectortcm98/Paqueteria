@@ -1,0 +1,66 @@
+﻿@model ML.Usuario
+@{
+    ViewBag.Title = "Tabla";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@*Se importa jquery*@
+@Scripts.Render("~/bundles/jquery")
+
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h2 style="font-weight: bold; margin-bottom: 20px; ">Tabla Usuarios</h2>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-primary" onclick="AgregarUsuariosRandom()">Agregar</button>
+        </div>
+    </div>
+    <hr style="border:none; border-top: 3px solid black; margin:20px 0; " />
+    <div class="row">
+        <div class="col-10">
+            <table class="table table-hover table-bordered table-responsive-xl">
+                <thead class="table-danger">
+                    <tr class="align-middle text-center">
+                        <th>Username</th>
+                        <th>Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Imagen</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider" id="tr">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    function AgregarUsuariosRandom() {
+        /*invocar ajax*/
+        $.ajax({
+            url: 'https://randomuser.me/api', /*url del servidor donde hare la peticion*/
+            type: 'GET', /*obtendran usuarios*/
+            datatype: 'JSON',
+            /*dato: el valor que vamos a enviar al servidor*/
+            success: function (informationUsers) {
+                var InformationUsersUsername = '<td>' + informationUsers.results[0].login.username + '</td>';
+                var InformationUsersName = '<td>' + informationUsers.results[0].name.first + '</td>';
+                var InformationUsersApelidoPaterno = '<td>' + informationUsers.results[0].name.last + '</td>';
+                var InformationUsersEmail = '<td>' + informationUsers.results[0].email + '</td>';
+                var InformationUsersPassword = '<td>' + informationUsers.results[0].login.password + '</td>';
+                var imagen = '<td>' + '<img src="' + informationUsers.results[0].picture.thumbnail + '" />' + '</td>';
+
+                var newRow = '<tr>' + InformationUsersUsername + InformationUsersName + InformationUsersApelidoPaterno + InformationUsersEmail + InformationUsersPassword + imagen + '</tr>';
+                $('#tr').append(newRow);
+            },
+            error: function (error) { }
+        })
+    }
+</script>
+
+

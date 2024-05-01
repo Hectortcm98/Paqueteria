@@ -1,0 +1,152 @@
+﻿@model ML.Usuario
+
+@{
+    ViewBag.Title = "GetAllEF";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-color: #89BCB0; /* Color de fondo deseado */
+    }
+
+    h2 {
+        text-align: center;
+    }
+</style>
+
+
+
+
+<h2>Tabla de los Usuarios registrados</h2>
+
+@*<form action="@Url.Action("CerrarSesion", "Usuarios")" method="post">
+    <button type="submit">Cerrar sesión</button>
+</form>*@
+
+<div>
+    @using (Html.BeginForm("GetAllEF", "Usuarios", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <div style="display: flex; align-items: center;">
+            <div style="flex-grow: 1;">
+                @Html.LabelFor(model => model.Nombre)
+                @Html.TextBoxFor(model => model.Nombre)
+
+            </div>
+            <div style="flex-grow: 1;">
+                @Html.LabelFor(model => model.ApellidoPaterno)
+                @Html.TextBoxFor(model => model.ApellidoPaterno)
+
+            </div>
+            <div style="flex-grow: 1;">
+                @Html.LabelFor(model => model.ApellidoMaterno)
+                @Html.TextBoxFor(model => model.ApellidoMaterno)
+
+            </div>
+            <div>
+                <input type="submit" value="Filtrar" style="font-size: 16px; padding: 5px 20px;" />
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+<table class="table table- table-hover table-bordered border border-primary  border-3">
+    <thead class="table-secondary">
+        <tr class="text-center">
+            <th>Editar</th>
+            <th>Estatus</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>UserName</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Fecha Nacimiento</th>
+            <th>Sexo</th>
+            <th>Telefono</th>
+            <th>Celular</th>
+            <th>CURP</th>
+            @*<th>Id_Roll</th>*@
+            <th>Nombre del Roll</th>
+            <th>Direccion</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+
+    @*<div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+            <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+        </div>*@
+    <tbody>
+
+        @foreach (ML.Usuario usuario in Model.Usuarios)
+        {
+
+            <tr class="text-center">
+                <td><a class="btn  btn-secondary" style="background-color: #FFFFFF;" href="@Url.Action("Form", "Usuarios" , new { idUsuario = usuario.IdUsuario}) "><img src="~/Imagen/editar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a></td>
+                <td>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="estadoUsuario_@usuario.IdUsuario" @(usuario.Estatus ? "checked" : "") onchange=" CambiarEstatus('@usuario.IdUsuario', this)" />
+                    </div>
+                </td>
+                <td>
+                    <div style="width: 80px; height: 80px; overflow: hidden; border-radius: 50%;">
+                        <img id="img" src="data:image/*;base64, @usuario.Imagen" width="80" height="80" class="mb-2" style="object-fit: cover;">
+                    </div>
+                </td>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.UserName</td>
+                <td>@usuario.ApellidoPaterno</td>
+                <td>@usuario.ApellidoMaterno</td>
+                <td>@usuario.Email</td>
+                <td>@usuario.Password</td>
+                <td>@usuario.FechaNacimiento</td>
+                <td>@usuario.Sexo</td>
+                <td>@usuario.Telefono</td>
+                <td>@usuario.Celular</td>
+                <td>@usuario.CURP</td>
+                @*<td>@usuario.Roll.Id_Roll</td>*@
+                <td>@usuario.Roll.NombreRoll</td>
+                <td>
+                    @usuario.Direccion.Calle,@usuario.Direccion.NumeroInterior,@usuario.Direccion.NumeroExteriror,@usuario.Direccion.Colonia.NombreColonia,
+                    @usuario.Direccion.Colonia.Municipio.NombreMunicipio,@usuario.Direccion.Colonia.Municipio.Estado.NombreEstado,
+                    @usuario.Direccion.Colonia.Municipio.Estado.Pais.NombrePais
+                </td>
+                <td>
+                    <a class="btn  btn-primary" style="background-color: #FFFFFF;" onclick="return confirm('¿Estás seguro de que deseas eliminar este Usuario?');"
+                       href="@Url.Action("Delete", "Usuarios" , new { idUsuario = usuario.IdUsuario})"><img src="~/Imagen/eliminar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="@Url.Action("Form", "Usuarios")" class="btn btn-primary float-right">Agregar</a>
+    </div>
+</div>
+
+
+<script>
+        function CambiarEstatus(IdUsuario, input) {
+            var valor = input.checked;
+            $.ajax({
+                url: '@Url.Action("CambiarEstatus")',
+                dataType: 'JSON',
+                type: 'POST',
+                data: { IdUsuario: IdUsuario, Estatus: valor },
+                success : function (result) {
+
+                },
+                Error: function (result) {
+                    alert('Erro en la conexión')
+                }
+            })
+        }
+</script>
+

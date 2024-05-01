@@ -1,0 +1,155 @@
+﻿@model ML.Asignar
+@{
+    ViewBag.Title = "EnviarPaquetes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h2 class="text-center">Enviar Paquetes</h2>
+
+<div style="text-align: right;">
+    <a href="@Url.Action("GetAll", "Paquetes")" float-right" id="btnRegresar">
+        <img src="~/Imagen/devolver.png" style="width: 40px; height: 40px;" />
+    </a>
+</div>
+<br />
+
+
+
+@if (Model.Asignacion.Any(paquete => paquete.TotalPaquetes > 0))
+{
+    <table class="table table-hover table-bordered border border-primary border-3">
+        <thead>
+            <tr class="table-secondary">
+                <th class="text-center">Añadir paquete</th>
+                <th class="text-center">Cantidad de paquetes</th>
+                <th class="text-center">Quitar paquete</th>
+                <th class="text-center">Instrucción de Entrega</th>
+                <th class="text-center">Número de guía</th>
+                <th class="text-center">Datos del repartidor</th>
+                <th class="text-center">Fecha y Dirección de entrega</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ML.Asignar paquete in Model.Asignacion.Where(paquete => paquete.TotalPaquetes > 0))
+            {
+                <tr class="text-center align-middle">
+                    <td><button class="plus-button" onclick="IncremetarPaquetes('@paquete.Repartidor.IdRepartidor')" style="background-color: #89BCB0;"></button></td>
+                    <td>@paquete.TotalPaquetes</td>
+                    <td><button class="minus-button" onclick="DisminuirPaquetes('@paquete.Repartidor.IdRepartidor')" style="background-color: #89BCB0;"></button></td>
+                    <td>@paquete.Paquete.InstruccionEntrega</td>
+                    <td>@paquete.Paquete.NumeroGuia</td>
+                    <td>@paquete.Repartidor.Nombre @paquete.Repartidor.ApellidoPaterno @paquete.Repartidor.ApellidoPMaterno</td>
+                    <td>@paquete.Paquete.FechaEstimadaEntrega, @paquete.Paquete.DireccionEntrega </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+
+
+
+    @*<div style="background-color: #AF3333; padding: 10px; margin-bottom: 10px; ">
+        <p class="text-center  mb-0" style="font-size: 24px; color: black;">No hay paquetes disponibles!!</p>
+    </div>*@
+
+    <div style="text-align: center; position: relative;">
+        <img src="~/Imagen/ojo.png" alt="Imagen" style="width: 80px; height: auto;">
+        <div class="cloud">
+            <p style="color: aquamarine">"No hay ningún paquete que visualizar"</p>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+
+
+
+<script>
+    function IncremetarPaquetes(repartidorId) {
+        $.ajax({
+            url: '@Url.Action("IncremetarPaquetes", "EnvioPaquetes")',
+            type: 'POST',
+            data: { repartidorId: repartidorId },
+            success: function (result) {
+                // Manejar el éxito si es necesario
+                location.reload(); // Recargar la página por ejemplo
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
+
+<script>
+    function DisminuirPaquetes(repartidorId) {
+        $.ajax({
+            url: '@Url.Action("DisminuirPaquetes", "EnvioPaquetes")',
+            type: 'POST',
+            data: { repartidorId: repartidorId },
+            success: function (result) {
+                // Manejar el éxito si es necesario
+                location.reload(); // Recargar la página por ejemplo
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+</script>
+
+@*Imgenes para los botones*@
+
+<style>
+    .plus-button {
+        background-color: white;
+        background-image: url('/Imagen/agregar.png');
+        background-size: cover;
+        width: 40px; /* Ajusta el ancho y alto de acuerdo a tu imagen */
+        height: 40px;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
+<style>
+    .minus-button {
+        background-color: white;
+        background-image: url('/Imagen/menos.png');
+        background-size: cover;
+        width: 40px; /* Ajusta el ancho y alto de acuerdo a tu imagen */
+        height: 40px;
+        border: none;
+        cursor: pointer;
+    }
+</style>
+
+<style>
+    body {
+        background-color: #89BCB0; /* Color de fondo deseado */
+    }
+
+    /*Este estilo es para el mesaje de cuando no hay ningun paquete agregado a la vista */
+    .cloud {
+        position: absolute;
+        top: -40px; /* Ajusta la posición vertical de la nube */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #AF3333;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+        .cloud p {
+            margin: 0;
+        }
+</style>

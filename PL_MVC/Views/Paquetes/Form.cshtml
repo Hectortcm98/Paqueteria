@@ -1,0 +1,204 @@
+﻿@model ML.Paquete
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="text-align: center;">
+    <h2>Datos del Paquete</h2>
+</div>
+
+<style>
+    body {
+        background-color: #89BCB0; /* Color de fondo deseado */
+    }
+</style>
+
+<div style="text-align: right;">
+    <a href="@Url.Action("GetAll", "Paquetes")" float-right" id="btnRegresar">
+        <img src="~/Imagen/devolver.png" style="width: 45px; height: 45px;" />
+    </a>
+</div>
+
+@using (Html.BeginForm("Form", "Paquetes", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.IdPaquete)
+
+
+    <div style="display: flex; flex-wrap: wrap;">
+        <div style="flex-basis: 33.33%; padding: 5px;">
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.InstruccionEntrega)
+                    </label>
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.InstruccionEntrega, new { @class = "form-control", @onkeyup = "soloLetras(this,'lblIntruccionEntrega')" })
+                    <label id="lblIntruccionEntrega" style="color:red"></label>
+                    <label class="text-danger">
+                        @Html.ValidationMessageFor(model => model.InstruccionEntrega)
+                    </label>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.Peso)
+                    </label>
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.Peso, new { @class = "form-control", @onkeyup = "soloNumeros(this,'lblPeso')" })
+                    <label id="lblPeso" style="color:red"></label>
+                    <label class="text-danger">
+                        @Html.ValidationMessageFor(model => model.InstruccionEntrega)
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div style="flex-basis: 33.33%; padding: 5px;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.DireccionOrigen)
+                    </label>
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.DireccionOrigen, new { @class = "form-control", @onkeyup = "soloLetras(this,'lblDirecionOrigen')" })
+                    <label id="lblDirecionOrigen" style="color:red"></label>
+                    <label class="text-danger">
+                        @Html.ValidationMessageFor(model => model.InstruccionEntrega)
+                    </label>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.DireccionEntrega)
+                    </label>
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.DireccionEntrega, new { @class = "form-control", @onkeyup = "soloLetras(this,'lblDirecionEntrega')" })
+                    <label id="lblDirecionEntrega" style="color:red"></label>
+                    <label class="text-danger">
+                        @Html.ValidationMessageFor(model => model.InstruccionEntrega)
+                    </label>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="flex-basis: 33.33%; padding: 5px;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.FechaEstimadaEntrega)
+                    </label>
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.FechaEstimadaEntrega, new { @class = "", @placeholder = "FechaEstimadaEntrega", @type = "date", @style = "width: 200px; height: 35px; padding: 10px;" })
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.NumeroGuia)
+                    </label>
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.NumeroGuia, new { @class = "form-control", @onkeyup = "soloNumeros(this,'lblNumeroGuia')" })
+                    <label id="lblNumeroGuia" style="color:red"></label>
+                    <label class="text-danger">
+                        @Html.ValidationMessageFor(model => model.NumeroGuia)
+                    </label>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.CodigoQR)
+                    </label>
+                </div>
+                <div>
+                    @Html.TextBoxFor(model => model.CodigoQR, new { @class = "form-control", @onkeyup = "soloLetrasNumeros(this,'lblCodigo')" })
+                    <label id="lblCodigo" style="color:red"></label>
+                    <label class="text-danger">
+                        @Html.ValidationMessageFor(model => model.CodigoQR)
+                    </label>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+
+        <button type="submit" style="padding: 5px 60px; font-size: 16px;">Save</button>
+    </div>
+
+}
+
+
+
+
+@*Para validar los cuadros de mi vista*@
+<script>
+    function soloLetras(input, label) {
+        var valor = $(input).val();
+        var soloLetras = valor.replace(/[^a-zA-Z\s]/, ''); // Elimina todo excepto letras
+        $(input).val(soloLetras); // Actualiza el valor del campo de texto solo con letras
+
+        if (valor !== soloLetras) {
+            $('#' + label).text("Solo se permiten letras");
+            $(input).css({ "border-color": "#F5B7B1", "background-color": "#F5B7B1" });
+        } else {
+            $('#' + label).text("");
+            $(input).css({ "border-color": "green", "background-color": "#63f96f" });
+        }
+    }
+</script>
+
+
+<script>
+    function soloNumeros(input, label) {
+        var valor = $(input).val();
+        var soloNumeros = valor.replace(/[^\d\s]/, ''); // Elimina todo excepto números
+        var truncado = soloNumeros.slice(0, 10);
+        $(input).val(truncado);
+
+        if (valor !== truncado) {
+            $('#' + label).text("Solo Numeros");
+            $(input).css({ "border-color": "#F5B7B1", "background-color": "#F5B7B1" });
+        } else {
+            $('#' + label).text("");
+            $(input).css({ "border-color": "green", "background-color": "#63f96f" });
+        }
+    }
+</script>
+
+<script>
+    function soloLetrasNumeros(input, label) {
+        var valor = input.value;
+        var soloLetrasNumeros = valor.replace(/[^a-zA-Z0-9]/g, ''); // Elimina todo excepto letras y números
+        var truncado = soloLetrasNumeros.slice(0, 10); // Limita la longitud a 10 caracteres
+        input.value = truncado;
+
+        if (valor !== truncado) {
+            document.getElementById(label).innerText = "Solo letras y números";
+            input.style.borderColor = "#F5B7B1";
+            input.style.backgroundColor = "#F5B7B1";
+        } else {
+            document.getElementById(label).innerText = "";
+            input.style.borderColor = "green";
+            input.style.backgroundColor = "#63f96f";
+        }
+    }
+</script>

@@ -1,0 +1,1389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ElectronicosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Colonia">
+          <Key>
+            <PropertyRef Name="Id_Colonia" />
+          </Key>
+          <Property Name="Id_Colonia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CodigoPostal" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Municipio" Type="int" />
+        </EntityType>
+        <EntityType Name="Direccion">
+          <Key>
+            <PropertyRef Name="Id_Direccion" />
+          </Key>
+          <Property Name="Id_Direccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Calle" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NumeroInterior" Type="varchar" MaxLength="20" />
+          <Property Name="NumeroExterior" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Colonia" Type="int" />
+          <Property Name="IdUsuario" Type="int" />
+        </EntityType>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+          </Key>
+          <Property Name="Id_Estado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Pais" Type="int" />
+        </EntityType>
+        <EntityType Name="EstatusTransporte">
+          <Key>
+            <PropertyRef Name="IdEstatus" />
+          </Key>
+          <Property Name="IdEstatus" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Estatus" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Municipio">
+          <Key>
+            <PropertyRef Name="Id_Municipio" />
+          </Key>
+          <Property Name="Id_Municipio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Estado" Type="int" />
+        </EntityType>
+        <EntityType Name="Pais">
+          <Key>
+            <PropertyRef Name="Id_Pais" />
+          </Key>
+          <Property Name="Id_Pais" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Paquete">
+          <Key>
+            <PropertyRef Name="IdPaquete" />
+          </Key>
+          <Property Name="IdPaquete" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InstruccionEntrega" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Peso" Type="decimal" Precision="6" Scale="4" Nullable="false" />
+          <Property Name="DireccionOrigen" Type="varchar" MaxLength="250" />
+          <Property Name="DireccionEntrega" Type="varchar" MaxLength="250" />
+          <Property Name="FechaEstimadaEntrega" Type="date" Nullable="false" />
+          <Property Name="NumeroGuia" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="CodigoQR" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Repartidor">
+          <Key>
+            <PropertyRef Name="IdRepartidor" />
+          </Key>
+          <Property Name="IdRepartidor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoPMaterno" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roll">
+          <Key>
+            <PropertyRef Name="Id_Roll" />
+          </Key>
+          <Property Name="Id_Roll" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Transporte">
+          <Key>
+            <PropertyRef Name="IdTransporte" />
+          </Key>
+          <Property Name="IdTransporte" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumeroPlaca" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Modelo" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AñoFabricacion" Type="date" />
+          <Property Name="IdEstatus" Type="tinyint" />
+          <Property Name="Marca" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="50" />
+          <Property Name="Email" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FechaNacimiento" Type="date" Nullable="false" />
+          <Property Name="Sexo" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Celular" Type="varchar" MaxLength="20" />
+          <Property Name="CURP" Type="varchar" MaxLength="50" />
+          <Property Name="Imagen" Type="varchar(max)" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Id_Roll" Type="int" />
+          <Property Name="Estatus" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Colonia__Id_Muni__45F365D3">
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="0..1" />
+          <End Role="Colonia" Type="Self.Colonia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="Id_Municipio" />
+            </Principal>
+            <Dependent Role="Colonia">
+              <PropertyRef Name="Id_Municipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Direccion__Id_Co__49C3F6B7">
+          <End Role="Colonia" Type="Self.Colonia" Multiplicity="0..1" />
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colonia">
+              <PropertyRef Name="Id_Colonia" />
+            </Principal>
+            <Dependent Role="Direccion">
+              <PropertyRef Name="Id_Colonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Direccion__IdUsu__4AB81AF0">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Direccion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Estado__Id_Pais__37A5467C">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="0..1" />
+          <End Role="Estado" Type="Self.Estado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Id_Pais" />
+            </Principal>
+            <Dependent Role="Estado">
+              <PropertyRef Name="Id_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Municipio__Id_Es__4316F928">
+          <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
+          <End Role="Municipio" Type="Self.Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="Id_Estado" />
+            </Principal>
+            <Dependent Role="Municipio">
+              <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pais__Id_Pais__36B12243">
+          <End Role="Pais" Type="Self.Pais" Multiplicity="1" />
+          <End Role="Pais1" Type="Self.Pais" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Pais">
+              <PropertyRef Name="Id_Pais" />
+            </Principal>
+            <Dependent Role="Pais1">
+              <PropertyRef Name="Id_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Transport__IdEst__787EE5A0">
+          <End Role="EstatusTransporte" Type="Self.EstatusTransporte" Multiplicity="0..1" />
+          <End Role="Transporte" Type="Self.Transporte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstatusTransporte">
+              <PropertyRef Name="IdEstatus" />
+            </Principal>
+            <Dependent Role="Transporte">
+              <PropertyRef Name="IdEstatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transporte_EstatusTransporte">
+          <End Role="EstatusTransporte" Type="Self.EstatusTransporte" Multiplicity="0..1" />
+          <End Role="Transporte" Type="Self.Transporte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstatusTransporte">
+              <PropertyRef Name="IdEstatus" />
+            </Principal>
+            <Dependent Role="Transporte">
+              <PropertyRef Name="IdEstatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_roll">
+          <End Role="Roll" Type="Self.Roll" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id_Roll" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Id_Roll" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddPaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="InstruccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="Peso" Type="decimal" Mode="In" />
+          <Parameter Name="DireccionOrigen" Type="varchar" Mode="In" />
+          <Parameter Name="DireccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEstimadaEntrega" Type="date" Mode="In" />
+          <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoQR" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="CambioEstatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="Estatus" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="ColoniaGetByIdMunicipio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Municipio" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeletePaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPaquete" Type="int" Mode="In" />
+          <Parameter Name="InstruccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="Peso" Type="decimal" Mode="In" />
+          <Parameter Name="DireccionOrigen" Type="varchar" Mode="In" />
+          <Parameter Name="DireccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEstimadaEntrega" Type="date" Mode="In" />
+          <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoQR" Type="varchar" Mode="In" />
+          <Parameter Name="IdRepartidor" Type="int" Mode="In" />
+        </Function>
+        <Function Name="EstadoGetByIdPais" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Pais" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAllEstatusTransporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllPaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllRepartidor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetAllTransporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetByCodigo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CodigoQR" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetByIdPaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPaquete" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetByIdRepartidor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdRepartidor" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetbyidTransporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTransporte" Type="int" Mode="In" />
+        </Function>
+        <Function Name="MunicipioGetByIdEstado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id_Estado" Type="int" Mode="In" />
+        </Function>
+        <Function Name="PaisGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="RollGetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="TransporteAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="NumeroPlaca" Type="varchar" Mode="In" />
+          <Parameter Name="Modelo" Type="varchar" Mode="In" />
+          <Parameter Name="AñoFabricacion" Type="date" Mode="In" />
+          <Parameter Name="IdEstatus" Type="tinyint" Mode="In" />
+          <Parameter Name="Marca" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="TransporteDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTransporte" Type="int" Mode="In" />
+          <Parameter Name="NumeroPlaca" Type="varchar" Mode="In" />
+          <Parameter Name="Modelo" Type="varchar" Mode="In" />
+          <Parameter Name="AñoFabricacion" Type="date" Mode="In" />
+          <Parameter Name="Marca" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdatePaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPaquete" Type="int" Mode="In" />
+          <Parameter Name="InstruccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="Peso" Type="decimal" Mode="In" />
+          <Parameter Name="DireccionOrigen" Type="varchar" Mode="In" />
+          <Parameter Name="DireccionEntrega" Type="varchar" Mode="In" />
+          <Parameter Name="FechaEstimadaEntrega" Type="date" Mode="In" />
+          <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoQR" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdatePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateTransporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTransporte" Type="int" Mode="In" />
+          <Parameter Name="NumeroPlaca" Type="varchar" Mode="In" />
+          <Parameter Name="Modelo" Type="varchar" Mode="In" />
+          <Parameter Name="AñoFabricacion" Type="date" Mode="In" />
+          <Parameter Name="IdEstatus" Type="tinyint" Mode="In" />
+          <Parameter Name="Marca" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Usuario_GetAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UsuarioAdd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="FechaNacimiento" Type="date" Mode="In" />
+          <Parameter Name="Sexo" Type="char" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Celular" Type="varchar" Mode="In" />
+          <Parameter Name="CURP" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Id_Roll" Type="int" Mode="In" />
+          <Parameter Name="Calle" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroInterior" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroExterior" Type="varchar" Mode="In" />
+          <Parameter Name="Id_Colonia" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UsuarioByEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UsuarioById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+        </Function>
+        <Function Name="UsuarioDelete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="FechaNacimiento" Type="date" Mode="In" />
+          <Parameter Name="Sexo" Type="char" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Celular" Type="varchar" Mode="In" />
+          <Parameter Name="CURP" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="UsuarioUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdUsuario" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoMaterno" Type="varchar" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+          <Parameter Name="Email" Type="varchar" Mode="In" />
+          <Parameter Name="Password" Type="varchar" Mode="In" />
+          <Parameter Name="FechaNacimiento" Type="date" Mode="In" />
+          <Parameter Name="Sexo" Type="char" Mode="In" />
+          <Parameter Name="Telefono" Type="varchar" Mode="In" />
+          <Parameter Name="Celular" Type="varchar" Mode="In" />
+          <Parameter Name="CURP" Type="varchar" Mode="In" />
+          <Parameter Name="Imagen" Type="varchar(max)" Mode="In" />
+          <Parameter Name="Id_Roll" Type="int" Mode="In" />
+          <Parameter Name="Calle" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroInterior" Type="varchar" Mode="In" />
+          <Parameter Name="NumeroExterior" Type="varchar" Mode="In" />
+          <Parameter Name="Id_Colonia" Type="int" Mode="In" />
+          <Parameter Name="Id_Direccion" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="ElectronicosModelStoreContainer">
+          <EntitySet Name="Colonia" EntityType="Self.Colonia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Direccion" EntityType="Self.Direccion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estado" EntityType="Self.Estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EstatusTransporte" EntityType="Self.EstatusTransporte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Municipio" EntityType="Self.Municipio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pais" EntityType="Self.Pais" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paquete" EntityType="Self.Paquete" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Repartidor" EntityType="Self.Repartidor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roll" EntityType="Self.Roll" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transporte" EntityType="Self.Transporte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Colonia__Id_Muni__45F365D3" Association="Self.FK__Colonia__Id_Muni__45F365D3">
+            <End Role="Municipio" EntitySet="Municipio" />
+            <End Role="Colonia" EntitySet="Colonia" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Direccion__Id_Co__49C3F6B7" Association="Self.FK__Direccion__Id_Co__49C3F6B7">
+            <End Role="Colonia" EntitySet="Colonia" />
+            <End Role="Direccion" EntitySet="Direccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Direccion__IdUsu__4AB81AF0" Association="Self.FK__Direccion__IdUsu__4AB81AF0">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Direccion" EntitySet="Direccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Estado__Id_Pais__37A5467C" Association="Self.FK__Estado__Id_Pais__37A5467C">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Estado" EntitySet="Estado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Municipio__Id_Es__4316F928" Association="Self.FK__Municipio__Id_Es__4316F928">
+            <End Role="Estado" EntitySet="Estado" />
+            <End Role="Municipio" EntitySet="Municipio" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pais__Id_Pais__36B12243" Association="Self.FK__Pais__Id_Pais__36B12243">
+            <End Role="Pais" EntitySet="Pais" />
+            <End Role="Pais1" EntitySet="Pais" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Transport__IdEst__787EE5A0" Association="Self.FK__Transport__IdEst__787EE5A0">
+            <End Role="EstatusTransporte" EntitySet="EstatusTransporte" />
+            <End Role="Transporte" EntitySet="Transporte" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transporte_EstatusTransporte" Association="Self.FK_Transporte_EstatusTransporte">
+            <End Role="EstatusTransporte" EntitySet="EstatusTransporte" />
+            <End Role="Transporte" EntitySet="Transporte" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_roll" Association="Self.fk_usuario_roll">
+            <End Role="Roll" EntitySet="Roll" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ElectronicosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ElectronicosEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Estadoes" EntityType="ElectronicosModel.Estado" />
+          <EntitySet Name="Pais" EntityType="ElectronicosModel.Pai" />
+          <AssociationSet Name="FK__Estado__Id_Pais__37A5467C" Association="ElectronicosModel.FK__Estado__Id_Pais__37A5467C">
+            <End Role="Pai" EntitySet="Pais" />
+            <End Role="Estado" EntitySet="Estadoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Pais__Id_Pais__36B12243" Association="ElectronicosModel.FK__Pais__Id_Pais__36B12243">
+            <End Role="Pai" EntitySet="Pais" />
+            <End Role="Pai1" EntitySet="Pais" />
+          </AssociationSet>
+          <EntitySet Name="Rolls" EntityType="ElectronicosModel.Roll" />
+          <EntitySet Name="Colonias" EntityType="ElectronicosModel.Colonia" />
+          <EntitySet Name="Direccions" EntityType="ElectronicosModel.Direccion" />
+          <EntitySet Name="Municipios" EntityType="ElectronicosModel.Municipio" />
+          <AssociationSet Name="FK__Colonia__Id_Muni__45F365D3" Association="ElectronicosModel.FK__Colonia__Id_Muni__45F365D3">
+            <End Role="Municipio" EntitySet="Municipios" />
+            <End Role="Colonia" EntitySet="Colonias" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Direccion__Id_Co__49C3F6B7" Association="ElectronicosModel.FK__Direccion__Id_Co__49C3F6B7">
+            <End Role="Colonia" EntitySet="Colonias" />
+            <End Role="Direccion" EntitySet="Direccions" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Municipio__Id_Es__4316F928" Association="ElectronicosModel.FK__Municipio__Id_Es__4316F928">
+            <End Role="Estado" EntitySet="Estadoes" />
+            <End Role="Municipio" EntitySet="Municipios" />
+          </AssociationSet>
+          <FunctionImport Name="RollGetAll" ReturnType="Collection(ElectronicosModel.RollGetAll_Result)" />
+          <FunctionImport Name="PaisGetAll" ReturnType="Collection(ElectronicosModel.PaisGetAll_Result)" />
+          <FunctionImport Name="EstadoGetByIdPais" ReturnType="Collection(ElectronicosModel.EstadoGetByIdPais_Result)">
+          <Parameter Name="Id_Pais" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="MunicipioGetByIdEstado" ReturnType="Collection(ElectronicosModel.MunicipioGetByIdEstado_Result)">
+          <Parameter Name="Id_Estado" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ColoniaGetByIdMunicipio" ReturnType="Collection(ElectronicosModel.ColoniaGetByIdMunicipio_Result)">
+          <Parameter Name="Id_Municipio" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="EstatusTransportes" EntityType="ElectronicosModel.EstatusTransporte" />
+          <EntitySet Name="Transportes" EntityType="ElectronicosModel.Transporte" />
+          <AssociationSet Name="FK__Transport__IdEst__787EE5A0" Association="ElectronicosModel.FK__Transport__IdEst__787EE5A0">
+            <End Role="EstatusTransporte" EntitySet="EstatusTransportes" />
+            <End Role="Transporte" EntitySet="Transportes" />
+          </AssociationSet>
+          <FunctionImport Name="GetAllEstatusTransporte" ReturnType="Collection(ElectronicosModel.GetAllEstatusTransporte_Result)" />
+          <FunctionImport Name="GetAllTransporte" ReturnType="Collection(ElectronicosModel.GetAllTransporte_Result)" />
+          <FunctionImport Name="GetbyidTransporte" ReturnType="Collection(ElectronicosModel.GetbyidTransporte_Result)">
+          <Parameter Name="IdTransporte" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TransporteAdd">
+            <Parameter Name="NumeroPlaca" Mode="In" Type="String" />
+            <Parameter Name="Modelo" Mode="In" Type="String" />
+            <Parameter Name="AñoFabricacion" Mode="In" Type="DateTime" />
+            <Parameter Name="IdEstatus" Mode="In" Type="Byte" />
+            <Parameter Name="Marca" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateTransporte">
+            <Parameter Name="IdTransporte" Mode="In" Type="Int32" />
+            <Parameter Name="NumeroPlaca" Mode="In" Type="String" />
+            <Parameter Name="Modelo" Mode="In" Type="String" />
+            <Parameter Name="AñoFabricacion" Mode="In" Type="DateTime" />
+            <Parameter Name="IdEstatus" Mode="In" Type="Byte" />
+            <Parameter Name="Marca" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TransporteDelete">
+            <Parameter Name="IdTransporte" Mode="In" Type="Int32" />
+            <Parameter Name="NumeroPlaca" Mode="In" Type="String" />
+            <Parameter Name="Modelo" Mode="In" Type="String" />
+            <Parameter Name="AñoFabricacion" Mode="In" Type="DateTime" />
+            <Parameter Name="Marca" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioAdd">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Sexo" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Celular" Mode="In" Type="String" />
+            <Parameter Name="CURP" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="Id_Roll" Mode="In" Type="Int32" />
+            <Parameter Name="Calle" Mode="In" Type="String" />
+            <Parameter Name="NumeroInterior" Mode="In" Type="String" />
+            <Parameter Name="NumeroExterior" Mode="In" Type="String" />
+            <Parameter Name="Id_Colonia" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioDelete">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Sexo" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Celular" Mode="In" Type="String" />
+            <Parameter Name="CURP" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioUpdate">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+            <Parameter Name="FechaNacimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="Sexo" Mode="In" Type="String" />
+            <Parameter Name="Telefono" Mode="In" Type="String" />
+            <Parameter Name="Celular" Mode="In" Type="String" />
+            <Parameter Name="CURP" Mode="In" Type="String" />
+            <Parameter Name="Imagen" Mode="In" Type="String" />
+            <Parameter Name="Id_Roll" Mode="In" Type="Int32" />
+            <Parameter Name="Calle" Mode="In" Type="String" />
+            <Parameter Name="NumeroInterior" Mode="In" Type="String" />
+            <Parameter Name="NumeroExterior" Mode="In" Type="String" />
+            <Parameter Name="Id_Colonia" Mode="In" Type="Int32" />
+            <Parameter Name="Id_Direccion" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Usuarios" EntityType="ElectronicosModel.Usuario" />
+          <AssociationSet Name="FK__Direccion__IdUsu__4AB81AF0" Association="ElectronicosModel.FK__Direccion__IdUsu__4AB81AF0">
+            <End Role="Usuario" EntitySet="Usuarios" />
+            <End Role="Direccion" EntitySet="Direccions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_usuario_roll" Association="ElectronicosModel.fk_usuario_roll">
+            <End Role="Roll" EntitySet="Rolls" />
+            <End Role="Usuario" EntitySet="Usuarios" />
+          </AssociationSet>
+          <FunctionImport Name="CambioEstatus">
+            <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+            <Parameter Name="Estatus" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="Usuario_GetAll" ReturnType="Collection(ElectronicosModel.Usuario_GetAll_Result)">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoMaterno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioById" ReturnType="Collection(ElectronicosModel.UsuarioById_Result)">
+          <Parameter Name="IdUsuario" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetByIdRepartidor" ReturnType="Collection(ElectronicosModel.GetByIdRepartidor_Result)">
+          <Parameter Name="IdRepartidor" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddPaquete">
+            <Parameter Name="InstruccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="Peso" Mode="In" Type="Decimal" />
+            <Parameter Name="DireccionOrigen" Mode="In" Type="String" />
+            <Parameter Name="DireccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="FechaEstimadaEntrega" Mode="In" Type="DateTime" />
+            <Parameter Name="NumeroGuia" Mode="In" Type="String" />
+            <Parameter Name="CodigoQR" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllPaquete" ReturnType="Collection(ElectronicosModel.GetAllPaquete_Result)" />
+          <FunctionImport Name="GetByIdPaquete" ReturnType="Collection(ElectronicosModel.GetByIdPaquete_Result)">
+          <Parameter Name="IdPaquete" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Repartidors" EntityType="ElectronicosModel.Repartidor" />
+          <FunctionImport Name="GetAllRepartidor" ReturnType="Collection(ElectronicosModel.GetAllRepartidor_Result)" />
+          <FunctionImport Name="UpdatePassword">
+            <Parameter Name="Email" Mode="In" Type="String" />
+            <Parameter Name="Password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeletePaquete">
+            <Parameter Name="IdPaquete" Mode="In" Type="Int32" />
+            <Parameter Name="InstruccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="Peso" Mode="In" Type="Decimal" />
+            <Parameter Name="DireccionOrigen" Mode="In" Type="String" />
+            <Parameter Name="DireccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="FechaEstimadaEntrega" Mode="In" Type="DateTime" />
+            <Parameter Name="NumeroGuia" Mode="In" Type="String" />
+            <Parameter Name="CodigoQR" Mode="In" Type="String" />
+            <Parameter Name="IdRepartidor" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="UpdatePaquete">
+            <Parameter Name="IdPaquete" Mode="In" Type="Int32" />
+            <Parameter Name="InstruccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="Peso" Mode="In" Type="Decimal" />
+            <Parameter Name="DireccionOrigen" Mode="In" Type="String" />
+            <Parameter Name="DireccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="FechaEstimadaEntrega" Mode="In" Type="DateTime" />
+            <Parameter Name="NumeroGuia" Mode="In" Type="String" />
+            <Parameter Name="CodigoQR" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Paquetes" EntityType="ElectronicosModel.Paquete" />
+          <FunctionImport Name="GetByCodigo" ReturnType="Collection(ElectronicosModel.GetByCodigo_Result)">
+          <Parameter Name="CodigoQR" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UsuarioByEmail" ReturnType="Collection(ElectronicosModel.UsuarioByEmail_Result)">
+            <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="Estado">
+          <Key>
+            <PropertyRef Name="Id_Estado" />
+          </Key>
+          <Property Name="Id_Estado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Pais" Type="Int32" />
+          <NavigationProperty Name="Pai" Relationship="ElectronicosModel.FK__Estado__Id_Pais__37A5467C" FromRole="Estado" ToRole="Pai" />
+          <NavigationProperty Name="Municipios" Relationship="ElectronicosModel.FK__Municipio__Id_Es__4316F928" FromRole="Estado" ToRole="Municipio" />
+        </EntityType>
+        <EntityType Name="Pai">
+          <Key>
+            <PropertyRef Name="Id_Pais" />
+          </Key>
+          <Property Name="Id_Pais" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Estadoes" Relationship="ElectronicosModel.FK__Estado__Id_Pais__37A5467C" FromRole="Pai" ToRole="Estado" />
+          <NavigationProperty Name="Pais1" Relationship="ElectronicosModel.FK__Pais__Id_Pais__36B12243" FromRole="Pai" ToRole="Pai1" />
+          <NavigationProperty Name="Pai1" Relationship="ElectronicosModel.FK__Pais__Id_Pais__36B12243" FromRole="Pai1" ToRole="Pai" />
+        </EntityType>
+        <Association Name="FK__Estado__Id_Pais__37A5467C">
+          <End Type="ElectronicosModel.Pai" Role="Pai" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.Estado" Role="Estado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pai">
+              <PropertyRef Name="Id_Pais" />
+            </Principal>
+            <Dependent Role="Estado">
+              <PropertyRef Name="Id_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Pais__Id_Pais__36B12243">
+          <End Type="ElectronicosModel.Pai" Role="Pai" Multiplicity="1" />
+          <End Type="ElectronicosModel.Pai" Role="Pai1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Pai">
+              <PropertyRef Name="Id_Pais" />
+            </Principal>
+            <Dependent Role="Pai1">
+              <PropertyRef Name="Id_Pais" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Roll">
+          <Key>
+            <PropertyRef Name="Id_Roll" />
+          </Key>
+          <Property Name="Id_Roll" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuarios" Relationship="ElectronicosModel.fk_usuario_roll" FromRole="Roll" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Colonia">
+          <Key>
+            <PropertyRef Name="Id_Colonia" />
+          </Key>
+          <Property Name="Id_Colonia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoPostal" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Municipio" Type="Int32" />
+          <NavigationProperty Name="Municipio" Relationship="ElectronicosModel.FK__Colonia__Id_Muni__45F365D3" FromRole="Colonia" ToRole="Municipio" />
+          <NavigationProperty Name="Direccions" Relationship="ElectronicosModel.FK__Direccion__Id_Co__49C3F6B7" FromRole="Colonia" ToRole="Direccion" />
+        </EntityType>
+        <EntityType Name="Direccion">
+          <Key>
+            <PropertyRef Name="Id_Direccion" />
+          </Key>
+          <Property Name="Id_Direccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Calle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroInterior" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="NumeroExterior" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Colonia" Type="Int32" />
+          <Property Name="IdUsuario" Type="Int32" />
+          <NavigationProperty Name="Colonia" Relationship="ElectronicosModel.FK__Direccion__Id_Co__49C3F6B7" FromRole="Direccion" ToRole="Colonia" />
+          <NavigationProperty Name="Usuario" Relationship="ElectronicosModel.FK__Direccion__IdUsu__4AB81AF0" FromRole="Direccion" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Municipio">
+          <Key>
+            <PropertyRef Name="Id_Municipio" />
+          </Key>
+          <Property Name="Id_Municipio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Estado" Type="Int32" />
+          <NavigationProperty Name="Colonias" Relationship="ElectronicosModel.FK__Colonia__Id_Muni__45F365D3" FromRole="Municipio" ToRole="Colonia" />
+          <NavigationProperty Name="Estado" Relationship="ElectronicosModel.FK__Municipio__Id_Es__4316F928" FromRole="Municipio" ToRole="Estado" />
+        </EntityType>
+        <Association Name="FK__Colonia__Id_Muni__45F365D3">
+          <End Type="ElectronicosModel.Municipio" Role="Municipio" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.Colonia" Role="Colonia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Municipio">
+              <PropertyRef Name="Id_Municipio" />
+            </Principal>
+            <Dependent Role="Colonia">
+              <PropertyRef Name="Id_Municipio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Direccion__Id_Co__49C3F6B7">
+          <End Type="ElectronicosModel.Colonia" Role="Colonia" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.Direccion" Role="Direccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Colonia">
+              <PropertyRef Name="Id_Colonia" />
+            </Principal>
+            <Dependent Role="Direccion">
+              <PropertyRef Name="Id_Colonia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Municipio__Id_Es__4316F928">
+          <End Type="ElectronicosModel.Estado" Role="Estado" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.Municipio" Role="Municipio" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado">
+              <PropertyRef Name="Id_Estado" />
+            </Principal>
+            <Dependent Role="Municipio">
+              <PropertyRef Name="Id_Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="RollGetAll_Result">
+          <Property Type="Int32" Name="Id_Roll" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="PaisGetAll_Result">
+          <Property Type="Int32" Name="Id_Pais" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="EstadoGetByIdPais_Result">
+          <Property Type="Int32" Name="Id_Estado" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="MunicipioGetByIdEstado_Result">
+          <Property Type="Int32" Name="Id_Municipio" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="ColoniaGetByIdMunicipio_Result">
+          <Property Type="Int32" Name="Id_Colonia" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="EstatusGetAll_Result">
+          <Property Type="Byte" Name="IdEstatus" Nullable="false" />
+          <Property Type="String" Name="EstatusTransporte" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="EstatusGetAll_Result1">
+          <Property Type="Byte" Name="IdEstatus" Nullable="false" />
+          <Property Type="String" Name="EstatusTransporte" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="EstatusTransporte">
+          <Key>
+            <PropertyRef Name="IdEstatus" />
+          </Key>
+          <Property Name="IdEstatus" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Estatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Transportes" Relationship="ElectronicosModel.FK__Transport__IdEst__787EE5A0" FromRole="EstatusTransporte" ToRole="Transporte" />
+        </EntityType>
+        <EntityType Name="Transporte">
+          <Key>
+            <PropertyRef Name="IdTransporte" />
+          </Key>
+          <Property Name="IdTransporte" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumeroPlaca" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Modelo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AñoFabricacion" Type="DateTime" Precision="0" />
+          <Property Name="IdEstatus" Type="Byte" />
+          <NavigationProperty Name="EstatusTransporte" Relationship="ElectronicosModel.FK__Transport__IdEst__787EE5A0" FromRole="Transporte" ToRole="EstatusTransporte" />
+          <Property Name="Marca" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK__Transport__IdEst__787EE5A0">
+          <End Type="ElectronicosModel.EstatusTransporte" Role="EstatusTransporte" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.Transporte" Role="Transporte" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EstatusTransporte">
+              <PropertyRef Name="IdEstatus" />
+            </Principal>
+            <Dependent Role="Transporte">
+              <PropertyRef Name="IdEstatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetAllEstatusTransporte_Result">
+          <Property Type="Byte" Name="IdEstatus" Nullable="false" />
+          <Property Type="String" Name="Estatus" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetAllTransporte_Result">
+          <Property Type="Int32" Name="IdTransporte" Nullable="false" />
+          <Property Type="String" Name="NumeroPlaca" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Modelo" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="AñoFabricacion" Nullable="true" />
+          <Property Type="Byte" Name="IdEstatus" Nullable="true" />
+          <Property Type="String" Name="Marca" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Estatus" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="GetbyidTransporte_Result">
+          <Property Type="Int32" Name="IdTransporte" Nullable="false" />
+          <Property Type="String" Name="NumeroPlaca" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="Modelo" Nullable="false" MaxLength="100" />
+          <Property Type="DateTime" Name="AñoFabricacion" Nullable="true" />
+          <Property Type="Byte" Name="IdEstatus" Nullable="true" />
+          <Property Type="String" Name="Marca" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Estatus" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="Telefono" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Celular" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CURP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Imagen" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Id_Roll" Type="Int32" />
+          <NavigationProperty Name="Direccions" Relationship="ElectronicosModel.FK__Direccion__IdUsu__4AB81AF0" FromRole="Usuario" ToRole="Direccion" />
+          <NavigationProperty Name="Roll" Relationship="ElectronicosModel.fk_usuario_roll" FromRole="Usuario" ToRole="Roll" />
+          <Property Name="Estatus" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Direccion__IdUsu__4AB81AF0">
+          <End Type="ElectronicosModel.Usuario" Role="Usuario" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.Direccion" Role="Direccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="Direccion">
+              <PropertyRef Name="IdUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_usuario_roll">
+          <End Type="ElectronicosModel.Roll" Role="Roll" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.Usuario" Role="Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roll">
+              <PropertyRef Name="Id_Roll" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="Id_Roll" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="Usuario_GetAll_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="254" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Celular" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CURP" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="Id_Roll" Nullable="true" />
+          <Property Type="Boolean" Name="Estatus" Nullable="false" />
+          <Property Type="String" Name="NombreRoll" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Direccion" Nullable="false" />
+          <Property Type="String" Name="Calle" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NumeroExterior" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Id_Colonia" Nullable="true" />
+          <Property Type="String" Name="NombreColonia" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodigoPostal" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Municipio" Nullable="true" />
+          <Property Type="String" Name="NombreMunicipio" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Estado" Nullable="true" />
+          <Property Type="String" Name="NombreEstado" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Pais" Nullable="true" />
+          <Property Type="String" Name="NombrePais" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UsuarioById_Result">
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoMaterno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="254" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="FechaNacimiento" Nullable="false" />
+          <Property Type="String" Name="Sexo" Nullable="false" MaxLength="2" />
+          <Property Type="String" Name="Telefono" Nullable="false" MaxLength="20" />
+          <Property Type="String" Name="Celular" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CURP" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Imagen" Nullable="true" />
+          <Property Type="Int32" Name="Id_Roll" Nullable="true" />
+          <Property Type="String" Name="NombreRoll" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Direccion" Nullable="false" />
+          <Property Type="String" Name="Calle" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NumeroExterior" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="NumeroInterior" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Id_Colonia" Nullable="true" />
+          <Property Type="String" Name="NombreColonia" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CodigoPostal" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Municipio" Nullable="true" />
+          <Property Type="String" Name="NombreMunicipio" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Estado" Nullable="true" />
+          <Property Type="String" Name="NombreEstado" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Id_Pais" Nullable="true" />
+          <Property Type="String" Name="NombrePais" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetByIdRepartidor_Result">
+          <Property Type="Int32" Name="IdRepartidor" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPMaterno" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetAllPaquete_Result">
+          <Property Type="Int32" Name="IdPaquete" Nullable="false" />
+          <Property Type="String" Name="InstruccionEntrega" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Peso" Nullable="false" Precision="6" Scale="4" />
+          <Property Type="String" Name="DireccionOrigen" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DireccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="FechaEstimadaEntrega" Nullable="false" />
+          <Property Type="String" Name="NumeroGuia" Nullable="false" MaxLength="15" />
+          <Property Type="Binary" Name="CodigoQR" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetByIdPaquete_Result">
+          <Property Type="Int32" Name="IdPaquete" Nullable="false" />
+          <Property Type="String" Name="InstruccionEntrega" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Peso" Nullable="false" Precision="6" Scale="4" />
+          <Property Type="String" Name="DireccionOrigen" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DireccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="FechaEstimadaEntrega" Nullable="false" />
+          <Property Type="String" Name="NumeroGuia" Nullable="false" MaxLength="15" />
+          <Property Type="Binary" Name="CodigoQR" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="Repartidor">
+          <Key>
+            <PropertyRef Name="IdRepartidor" />
+          </Key>
+          <Property Name="IdRepartidor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ApellidoPMaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="GetAllRepartidor_Result">
+          <Property Type="Int32" Name="IdRepartidor" Nullable="false" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPaterno" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ApellidoPMaterno" Nullable="false" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="Paquete">
+          <Key>
+            <PropertyRef Name="IdPaquete" />
+          </Key>
+          <Property Name="IdPaquete" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InstruccionEntrega" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Peso" Type="Decimal" Nullable="false" Precision="6" Scale="4" />
+          <Property Name="DireccionOrigen" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="DireccionEntrega" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEstimadaEntrega" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="NumeroGuia" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoQR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="GetByCodigo_Result">
+          <Property Type="Int32" Name="IdPaquete" Nullable="false" />
+          <Property Type="String" Name="InstruccionEntrega" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Peso" Nullable="false" Precision="6" Scale="4" />
+          <Property Type="String" Name="DireccionOrigen" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DireccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="FechaEstimadaEntrega" Nullable="false" />
+          <Property Type="String" Name="NumeroGuia" Nullable="false" MaxLength="15" />
+          <Property Type="String" Name="CodigoQR" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="UsuarioByEmail_Result">
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="254" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="IdUsuario" Nullable="false" />
+          <Property Type="Int32" Name="Id_Roll" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ElectronicosModelStoreContainer" CdmEntityContainer="ElectronicosEntities" >
+          <EntitySetMapping Name="Estadoes">
+            <EntityTypeMapping TypeName="ElectronicosModel.Estado">
+              <MappingFragment StoreEntitySet="Estado">
+                <ScalarProperty Name="Id_Pais" ColumnName="Id_Pais" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pais">
+            <EntityTypeMapping TypeName="ElectronicosModel.Pai">
+              <MappingFragment StoreEntitySet="Pais">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Pais" ColumnName="Id_Pais" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rolls">
+            <EntityTypeMapping TypeName="ElectronicosModel.Roll">
+              <MappingFragment StoreEntitySet="Roll">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Roll" ColumnName="Id_Roll" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Colonias">
+            <EntityTypeMapping TypeName="ElectronicosModel.Colonia">
+              <MappingFragment StoreEntitySet="Colonia">
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Colonia" ColumnName="Id_Colonia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Direccions">
+            <EntityTypeMapping TypeName="ElectronicosModel.Direccion">
+              <MappingFragment StoreEntitySet="Direccion">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Id_Colonia" ColumnName="Id_Colonia" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="Id_Direccion" ColumnName="Id_Direccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Municipios">
+            <EntityTypeMapping TypeName="ElectronicosModel.Municipio">
+              <MappingFragment StoreEntitySet="Municipio">
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="RollGetAll" FunctionName="ElectronicosModel.Store.RollGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.RollGetAll_Result">
+                <ScalarProperty Name="Id_Roll" ColumnName="Id_Roll" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PaisGetAll" FunctionName="ElectronicosModel.Store.PaisGetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.PaisGetAll_Result">
+                <ScalarProperty Name="Id_Pais" ColumnName="Id_Pais" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="EstadoGetByIdPais" FunctionName="ElectronicosModel.Store.EstadoGetByIdPais">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.EstadoGetByIdPais_Result">
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="MunicipioGetByIdEstado" FunctionName="ElectronicosModel.Store.MunicipioGetByIdEstado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.MunicipioGetByIdEstado_Result">
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ColoniaGetByIdMunicipio" FunctionName="ElectronicosModel.Store.ColoniaGetByIdMunicipio">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.ColoniaGetByIdMunicipio_Result">
+                <ScalarProperty Name="Id_Colonia" ColumnName="Id_Colonia" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="EstatusTransportes">
+            <EntityTypeMapping TypeName="ElectronicosModel.EstatusTransporte">
+              <MappingFragment StoreEntitySet="EstatusTransporte">
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transportes">
+            <EntityTypeMapping TypeName="ElectronicosModel.Transporte">
+              <MappingFragment StoreEntitySet="Transporte">
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="AñoFabricacion" ColumnName="AñoFabricacion" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="NumeroPlaca" ColumnName="NumeroPlaca" />
+                <ScalarProperty Name="IdTransporte" ColumnName="IdTransporte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAllEstatusTransporte" FunctionName="ElectronicosModel.Store.GetAllEstatusTransporte">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetAllEstatusTransporte_Result">
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllTransporte" FunctionName="ElectronicosModel.Store.GetAllTransporte">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetAllTransporte_Result">
+                <ScalarProperty Name="IdTransporte" ColumnName="IdTransporte" />
+                <ScalarProperty Name="NumeroPlaca" ColumnName="NumeroPlaca" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="AñoFabricacion" ColumnName="AñoFabricacion" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetbyidTransporte" FunctionName="ElectronicosModel.Store.GetbyidTransporte">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetbyidTransporte_Result">
+                <ScalarProperty Name="IdTransporte" ColumnName="IdTransporte" />
+                <ScalarProperty Name="NumeroPlaca" ColumnName="NumeroPlaca" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="AñoFabricacion" ColumnName="AñoFabricacion" />
+                <ScalarProperty Name="IdEstatus" ColumnName="IdEstatus" />
+                <ScalarProperty Name="Marca" ColumnName="Marca" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TransporteAdd" FunctionName="ElectronicosModel.Store.TransporteAdd" />
+          <FunctionImportMapping FunctionImportName="UpdateTransporte" FunctionName="ElectronicosModel.Store.UpdateTransporte" />
+          <FunctionImportMapping FunctionImportName="TransporteDelete" FunctionName="ElectronicosModel.Store.TransporteDelete" />
+          <FunctionImportMapping FunctionImportName="UsuarioAdd" FunctionName="ElectronicosModel.Store.UsuarioAdd" />
+          <FunctionImportMapping FunctionImportName="UsuarioDelete" FunctionName="ElectronicosModel.Store.UsuarioDelete" />
+          <FunctionImportMapping FunctionImportName="UsuarioUpdate" FunctionName="ElectronicosModel.Store.UsuarioUpdate" />
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="ElectronicosModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="Id_Roll" ColumnName="Id_Roll" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="CambioEstatus" FunctionName="ElectronicosModel.Store.CambioEstatus" />
+          <FunctionImportMapping FunctionImportName="Usuario_GetAll" FunctionName="ElectronicosModel.Store.Usuario_GetAll">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.Usuario_GetAll_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Id_Roll" ColumnName="Id_Roll" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+                <ScalarProperty Name="NombreRoll" ColumnName="NombreRoll" />
+                <ScalarProperty Name="Id_Direccion" ColumnName="Id_Direccion" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="Id_Colonia" ColumnName="Id_Colonia" />
+                <ScalarProperty Name="NombreColonia" ColumnName="NombreColonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+                <ScalarProperty Name="NombreMunicipio" ColumnName="NombreMunicipio" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+                <ScalarProperty Name="NombreEstado" ColumnName="NombreEstado" />
+                <ScalarProperty Name="Id_Pais" ColumnName="Id_Pais" />
+                <ScalarProperty Name="NombrePais" ColumnName="NombrePais" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioById" FunctionName="ElectronicosModel.Store.UsuarioById">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.UsuarioById_Result">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Celular" ColumnName="Celular" />
+                <ScalarProperty Name="CURP" ColumnName="CURP" />
+                <ScalarProperty Name="Imagen" ColumnName="Imagen" />
+                <ScalarProperty Name="Id_Roll" ColumnName="Id_Roll" />
+                <ScalarProperty Name="NombreRoll" ColumnName="NombreRoll" />
+                <ScalarProperty Name="Id_Direccion" ColumnName="Id_Direccion" />
+                <ScalarProperty Name="Calle" ColumnName="Calle" />
+                <ScalarProperty Name="NumeroExterior" ColumnName="NumeroExterior" />
+                <ScalarProperty Name="NumeroInterior" ColumnName="NumeroInterior" />
+                <ScalarProperty Name="Id_Colonia" ColumnName="Id_Colonia" />
+                <ScalarProperty Name="NombreColonia" ColumnName="NombreColonia" />
+                <ScalarProperty Name="CodigoPostal" ColumnName="CodigoPostal" />
+                <ScalarProperty Name="Id_Municipio" ColumnName="Id_Municipio" />
+                <ScalarProperty Name="NombreMunicipio" ColumnName="NombreMunicipio" />
+                <ScalarProperty Name="Id_Estado" ColumnName="Id_Estado" />
+                <ScalarProperty Name="NombreEstado" ColumnName="NombreEstado" />
+                <ScalarProperty Name="Id_Pais" ColumnName="Id_Pais" />
+                <ScalarProperty Name="NombrePais" ColumnName="NombrePais" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetByIdRepartidor" FunctionName="ElectronicosModel.Store.GetByIdRepartidor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetByIdRepartidor_Result">
+                <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoPMaterno" ColumnName="ApellidoPMaterno" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddPaquete" FunctionName="ElectronicosModel.Store.AddPaquete" />
+          <FunctionImportMapping FunctionImportName="GetAllPaquete" FunctionName="ElectronicosModel.Store.GetAllPaquete">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetAllPaquete_Result">
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetByIdPaquete" FunctionName="ElectronicosModel.Store.GetByIdPaquete">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetByIdPaquete_Result">
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Repartidors">
+            <EntityTypeMapping TypeName="ElectronicosModel.Repartidor">
+              <MappingFragment StoreEntitySet="Repartidor">
+                <ScalarProperty Name="ApellidoPMaterno" ColumnName="ApellidoPMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetAllRepartidor" FunctionName="ElectronicosModel.Store.GetAllRepartidor">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetAllRepartidor_Result">
+                <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoPMaterno" ColumnName="ApellidoPMaterno" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UpdatePassword" FunctionName="ElectronicosModel.Store.UpdatePassword" />
+          <FunctionImportMapping FunctionImportName="DeletePaquete" FunctionName="ElectronicosModel.Store.DeletePaquete" />
+          <FunctionImportMapping FunctionImportName="UpdatePaquete" FunctionName="ElectronicosModel.Store.UpdatePaquete" />
+          <EntitySetMapping Name="Paquetes">
+            <EntityTypeMapping TypeName="ElectronicosModel.Paquete">
+              <MappingFragment StoreEntitySet="Paquete">
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetByCodigo" FunctionName="ElectronicosModel.Store.GetByCodigo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetByCodigo_Result">
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="UsuarioByEmail" FunctionName="ElectronicosModel.Store.UsuarioByEmail">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.UsuarioByEmail_Result">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Id_Roll" ColumnName="Id_Roll" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

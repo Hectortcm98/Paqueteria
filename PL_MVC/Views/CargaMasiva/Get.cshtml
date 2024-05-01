@@ -1,0 +1,122 @@
+﻿@model ML.ResultExcel
+
+@{
+    ViewBag.Title = "Get";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h1 class="text-center">Subir Archivos</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="container">
+            <div style="background-color: #067cd8; padding: 10px; margin-bottom: 10px;">
+                <p class="text-center text-ginda mb-0" style="font-size: 24px;">Archivo Excel</p>
+            </div>
+            @using (Html.BeginForm("Get", "CargaMasiva", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input type="file" id="archivoInput" name="ArchivoExcel" />
+                <input type="submit" id="procesarBtn" value="Procesar" />
+            }
+        </div>
+    </div>
+    @if (Model.Errores != null && Model.Errores.Count > 0)
+    {
+        <div>
+           <table class="table">
+               <tr>
+                   <td>IdRegistro</td>
+                   <td>Mensaje</td>
+               </tr>
+               @foreach (var resultado in Model.Errores)
+               {
+                   <tr class="text-center">
+                       <td>@resultado.IdRegistro</td>
+                       <td>@resultado.Mensaje</td>
+                   </tr>
+               }
+           </table>
+        </div>
+    }
+    else
+    {
+
+        if (Model.Paquetes.Count > 0)
+        {
+            <div>
+                <h2>Detalles de Paquetes</h2>
+                <table class="table">
+                    <thead>
+                        <div style="background-color: green; padding: 10px; margin-bottom: 10px;">
+                            <p class="text-center text-ginda mb-0" style="font-size: 24px;">Todo ha salido bien</p>
+                        </div>
+                        <tr>
+                            <th>Instrucción de Entrega</th>
+                            <th>Peso</th>
+                            <th>Dirección de Origen</th>
+                            <th>Dirección de Entrega</th>
+                            <th>Fecha Estimada de Entrega</th>
+                            <th>Número de Guía</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var paquete in Model.Paquetes)
+                        {
+                            <tr>
+                                <td>@paquete.InstruccionEntrega</td>
+                                <td>@paquete.Peso</td>
+                                <td>@paquete.DireccionOrigen</td>
+                                <td>@paquete.DireccionEntrega</td>
+                                <td>@paquete.FechaEstimadaEntrega</td>
+                                <td>@paquete.NumeroGuia</td>
+                            </tr>
+
+                               
+                            
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    }
+</div>
+
+@*<script>
+    $(document).ready(function () {
+        // Deshabilitar el input de archivo y cambiar el valor del botón al cargar la página si el archivo ya se ha subido
+        var archivoSubido = '@Session["PathArchivo"]';
+        if (archivoSubido) {
+            $('#archivoInput').prop('disabled', true);
+            $('#procesarBtn').val('Guardar');
+        }
+
+        // Cambiar el valor del botón y deshabilitar el input de archivo cuando se envía el formulario
+        $('form').submit(function () {
+            $('#archivoInput').prop('disabled', true);
+            $('#procesarBtn').val('Guardar');
+        });
+
+        // Manejar el clic en el botón "Guardar"
+        $('#procesarBtn').click(function () {
+            var archivoSubido = '@Session["PathArchivo"]';
+            if (archivoSubido) {
+                // Aquí puedes llamar a una función JavaScript para procesar los registros del archivo Excel y agregarlos a la base de datos
+                // Ejemplo:
+                $.ajax({
+                    url: '@Url.Action("Get", "CargaMasiva")',
+                    type: 'POST',
+                    data: { archivo: archivoSubido },
+                    success: function (response) {
+                        // Manejar la respuesta, por ejemplo, mostrar un mensaje de éxito
+                        alert('Registros guardados exitosamente.');
+                        // Puedes redirigir a otra página después de guardar los registros si es necesario
+                    },
+                    error: function () {
+                        // Manejar el error, por ejemplo, mostrar un mensaje de error
+                        alert('Error al guardar los registros.');
+                    }
+                });
+            } else {
+                // Si no se ha subido ningún archivo
+ </script>*@

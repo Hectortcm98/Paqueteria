@@ -1,0 +1,7 @@
+InstruccionEntrega|DireccionOrigen|DireccionEntrega|NumeroGuia
+Activado|mexico|canada24
+Activado|mexico|canada|25
+Activado|mexico|canada|26
+Activado|mexico|canada|27
+Activado|mexico|canada|28
+Activado|mexico|canada|29

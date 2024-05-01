@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7b5944e9c96c4eeda68d9efa32e1ade6" Name="Diagram1" >
+        <EntityTypeShape EntityType="ElectronicosModel.Estado" Width="1.5" PointX="5.625" PointY="1" />
+        <EntityTypeShape EntityType="ElectronicosModel.Pai" Width="1.5" PointX="3.375" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="ElectronicosModel.FK__Estado__Id_Pais__37A5467C" />
+        <AssociationConnector Association="ElectronicosModel.FK__Pais__Id_Pais__36B12243" />
+        <EntityTypeShape EntityType="ElectronicosModel.Roll" Width="1.5" PointX="0.75" PointY="5.875" />
+        <EntityTypeShape EntityType="ElectronicosModel.Colonia" Width="1.5" PointX="10.125" PointY="0.875" />
+        <EntityTypeShape EntityType="ElectronicosModel.Direccion" Width="1.5" PointX="9" PointY="3.75" />
+        <EntityTypeShape EntityType="ElectronicosModel.Municipio" Width="1.5" PointX="7.875" PointY="1" />
+        <AssociationConnector Association="ElectronicosModel.FK__Colonia__Id_Muni__45F365D3" />
+        <AssociationConnector Association="ElectronicosModel.FK__Direccion__Id_Co__49C3F6B7" />
+        <AssociationConnector Association="ElectronicosModel.FK__Municipio__Id_Es__4316F928" />
+        <EntityTypeShape EntityType="ElectronicosModel.EstatusTransporte" Width="1.5" PointX="3.375" PointY="4.25" />
+        <EntityTypeShape EntityType="ElectronicosModel.Transporte" Width="1.5" PointX="5.625" PointY="3.875" />
+        <AssociationConnector Association="ElectronicosModel.FK__Transport__IdEst__787EE5A0" />
+        <EntityTypeShape EntityType="ElectronicosModel.Usuario" Width="1.5" PointX="0.875" PointY="0.5" />
+        <AssociationConnector Association="ElectronicosModel.FK__Direccion__IdUsu__4AB81AF0" />
+        <AssociationConnector Association="ElectronicosModel.fk_usuario_roll" />
+        <EntityTypeShape EntityType="ElectronicosModel.Repartidor" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="ElectronicosModel.Paquete" Width="1.5" PointX="3.375" PointY="7.5" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
