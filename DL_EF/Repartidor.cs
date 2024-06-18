@@ -14,9 +14,18 @@ namespace DL_EF
     
     public partial class Repartidor
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Repartidor()
+        {
+            this.AsignacionPaqueteRepartidors = new HashSet<AsignacionPaqueteRepartidor>();
+        }
+    
         public int IdRepartidor { get; set; }
         public string Nombre { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoPMaterno { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AsignacionPaqueteRepartidor> AsignacionPaqueteRepartidors { get; set; }
     }
 }

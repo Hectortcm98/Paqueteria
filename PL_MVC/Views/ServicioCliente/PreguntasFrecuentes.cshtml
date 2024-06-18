@@ -1,0 +1,174 @@
+﻿@{
+    ViewBag.Title = "PreguntasFrecuentes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h1 style="text-align: center; color: #005a8d; font-size: 50px;">
+    <strong>Preguntas frecuentes</strong>
+</h1>
+
+<h2 style="text-align: center; color:black ">para rastreo y seguimiento</h2>
+<br />
+<br />
+
+<!-- Pregunta 1 -->
+<p id="clickable1" style="cursor:  pointer; color: blue; text-decoration: underline; text-align:center;">
+    ¿Qué es un número de rastreo y dónde puedo encontrarlo?
+</p>
+<p id="info1" style="display: none; text-align: center;">
+    Un número de rastreo es un código único utilizado para seguir el progreso de un envío. Puedes encontrarlo en el recibo de tu envío o en el correo electrónico de confirmación de tu pedido.
+</p>
+<hr style="border-top: .5px solid #333333; margin-top: 20px; margin-bottom: 20px;">
+
+
+
+<!-- Pregunta 2 -->
+<p id="clickable2" style="cursor: pointer; color: blue; text-decoration: underline; text-align: center;">
+    ¿Cuándo estará disponible la información de rastreo?
+</p>
+<p id="info2" style="display: none; text-align: center;">
+    La información de rastreo estará disponible tan pronto como el envío sea procesado por la empresa de transporte. Esto puede variar dependiendo del servicio y la empresa de mensajería utilizada.
+</p>
+<hr style="border-top: .5px solid #333333; margin-top: 20px; margin-bottom: 20px;">
+
+
+
+
+<!-- Pregunta 3 -->
+<p id="clickable3" style="cursor: pointer; color: blue; text-decoration: underline; text-align: center;">
+    ¿Por qué no funciona mi número de rastreo o ID de rastreo?
+</p>
+<p id="info3" style="display: none; text-align: center; ">
+    Hay varias razones por las cuales un número de rastreo o ID puede no funcionar, como errores en la entrada del número, retrasos en la actualización del sistema de seguimiento, o problemas con el servicio de mensajería. Te recomendamos verificar el número e intentarlo nuevamente más tarde.
+</p>
+<hr style="border-top: .5px solid #333333; margin-top: 20px; margin-bottom: 20px;">
+
+
+
+<!-- Pregunta 4 -->
+<p id="clickable4" style="cursor: pointer; color: blue; text-decoration: underline; text-align: center;">
+    ¿Puedo rastrear mi envío si no tengo un número de rastreo?
+</p>
+<p id="info4" style="display: none; text-align:center">
+    En la mayoría de los casos, necesitarás un número de rastreo para seguir el progreso de tu envío. Sin embargo, algunos servicios de mensajería ofrecen opciones alternativas de seguimiento basadas en la información de tu cuenta o dirección de envío. Te recomendamos ponerte en contacto con el servicio de atención al cliente para obtener más información.
+</p>
+<hr style="border-top: .5px solid #333333; margin-top: 20px; margin-bottom: 20px;">
+<br />
+<br />
+<br />
+<!-- Script JavaScript -->
+<script>
+    // Función para mostrar u ocultar la información cuando se hace clic
+    function toggleInfo(clickableId, infoId) {
+        const clickableElement = document.getElementById(clickableId);
+        const infoElement = document.getElementById(infoId);
+
+        clickableElement.addEventListener('click', () => {
+            infoElement.style.display = (infoElement.style.display === 'none') ? 'block' : 'none';
+        });
+    }
+
+    // Llamar a la función para cada pregunta
+    toggleInfo('clickable1', 'info1');
+    toggleInfo('clickable2', 'info2');
+    toggleInfo('clickable3', 'info3');
+    toggleInfo('clickable4', 'info4');
+</script>
+
+
+
+
+
+
+
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center;">
+    <!-- Enlaces rápidos -->
+    <div>
+        <h3>Enlaces rápidos</h3>
+        <ul style="list-style-type: none; padding: 0;">
+            <li><a href="http://localhost:60964/ServicioCliente/ServicioACliente">Servicio al Cliente</a></li>
+            <li><a href="http://localhost:60964/Login/Login">Portal de Inicios de Sesión del Cliente</a></li>
+            <li><a href="#">Socios digitales e integraciones</a></li>
+            <li><a href="#">Portal del Desarrollador</a></li>
+            <li><a href="#">Obtenga una cotización</a></li>
+            <li><a href="#">DHL para Empresas</a></li>
+        </ul>
+    </div>
+
+    <!-- Nuestras Divisiones -->
+    <div>
+        <h3>Nuestras Divisiones</h3>
+        <ul style="list-style-type: none; padding: 0;">
+            <li><a href="#">DHL Express</a></li>
+            <li><a href="#">DHL Global Forwarding</a></li>
+            <li><a href="#">DHL Supply Chain</a></li>
+            <li><a href="#">Otras Divisiones Globales</a></li>
+        </ul>
+    </div>
+
+    <!-- Sectores de la Industria -->
+    <div>
+        <h3>Sectores de la Industria</h3>
+        <ul style="list-style-type: none; padding: 0;">
+            <li><a href="#">Movilidad Autónoma</a></li>
+            <li><a href="#">Productos Químicos</a></li>
+            <li><a href="#">Consumidor</a></li>
+            <li><a href="#">Energía</a></li>
+            <li><a href="#">Ingeniería y Fabricación</a></li>
+            <li><a href="#">Ciencias Biológicas y Sector de la Salud</a></li>
+            <li><a href="#">Sector Público</a></li>
+            <li><a href="#">Retail</a></li>
+            <li><a href="#">Tecnología</a></li>
+        </ul>
+    </div>
+
+    <!-- Información de la Empresa -->
+    <div>
+        <h3>Información de la Empresa</h3>
+        <ul style="list-style-type: none; padding: 0;">
+            <li><a href="#">Acerca de DHL</a></li>
+            <li><a href="#">Entregado</a></li>
+            <li><a href="#">Carreras</a></li>
+            <li><a href="#">Centro de Prensa</a></li>
+            <li><a href="#">Inversores</a></li>
+            <li><a href="#">Sustentabilidad</a></li>
+            <li><a href="#">Ideas e Innovación</a></li>
+            <li><a href="#">Asociaciones de marca</a></li>
+        </ul>
+    </div>
+
+</div>
+
+
+
+<!-- Link de bootstrap para importa los iconono de social media -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Iconos de redes sociales -->
+<div style="text-align:center; margin-top: 50px;">
+    <h6>Síguenos</h6>
+    <ul class="social-icons" style="list-style-type: none; padding: 0; display: flex; justify-content: center;">
+        <li style="margin-right: 30px;"><a href="#"><i class="bi bi-facebook"></i></a></li>
+        <li style="margin-right: 30px;"><a href="#"><i class="bi bi-twitter"></i></a></li>
+        <li style="margin-right: 30px;"><a href="#"><i class="bi bi-instagram"></i></a></li>
+        <li style="margin-right: 30px;"><a href="#"><i class="bi bi-linkedin"></i></a></li>
+        <li><a href="#"><i class="bi bi-youtube"></i></a></li>
+    </ul>
+</div>
+
+<style>
+    .social-icons i {
+        font-size: 24px; /* Cambia este valor según lo grande que desees los iconos */
+    }
+</style>
+
+
+
+
+@*<footer>
+        <p style="text-align:center;">© 2024 Tu Proyecto de Envío de Paquetes. Todos los derechos reservados.</p>
+    </footer>*@
+
+
+

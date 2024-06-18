@@ -5,18 +5,37 @@
 }
 
 
-<div style="text-align: center;">
+<div>
     <h2>Datos de Transporte</h2>
 </div>
 
-<div style="text-align: right;">
+<style>
+    body {
+        background-color: #d6eafa; /* Color de fondo deseado */
+    }
+
+    h2 {
+        text-align: center;
+    }
+</style>
+
+
+
+@*<div style="text-align: right;">
     <a href="@Url.Action("GetAllTransporte", "Transporte")" class="btn btn-primary float-right" id="btnRegresar">Regresar</a>
+</div>*@
+
+<div style="text-align: right;">
+    <a href="@Url.Action("GetAllTransporte", "Transporte")" float-right" id="btnRegresar">
+        <img src="~/Imagen/devolver.png" style="width: 45px; height: 45px;" />
+    </a>
 </div>
+
 
 @using (Html.BeginForm("Form", "Transporte", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    <div style="text-align: center;">
-        <div style="display: inline-block; text-align: left;">
+    <div style="display: flex; flex-wrap: wrap;">
+        <div style="flex-basis: 33.33%; padding: 5px;">
 
             <!-- Campos de la izquierda -->
 
@@ -25,67 +44,83 @@
             @Html.HiddenFor(model => model.estatusTransporte.Estatus)
 
 
+            <div style="flex-basis: 33.33%; padding: 5px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="margin-bottom: 10px;">
+                        <label style="text-align: center;">
+                            @Html.LabelFor(model => model.NumeroPlaca)
+                        </label>
+                    </div>
+                        @Html.TextBoxFor(model => model.NumeroPlaca)
+                    </div>
+                </div>
+
+            <div style="flex-basis: 33.33%; padding: 5px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="margin-bottom: 10px;">
+                        <label style="text-align: center;">
+                            @Html.LabelFor(model => model.Modelo)
+                        </label>
+                    </div>
+                    @Html.TextBoxFor(model => model.Modelo)
+                </div>
+            </div>
 
 
-            <div>
-                <label style="display: inline-block; width: 120px; text-align: right;">
-                    @Html.LabelFor(model => model.NumeroPlaca)
-                </label>
-                @Html.TextBoxFor(model => model.NumeroPlaca)
 
             </div>
 
-            <div>
-                <label style="display: inline-block; width: 120px; text-align: right;">
-                    @Html.LabelFor(model => model.Modelo)
-                </label>
-                @Html.TextBoxFor(model => model.Modelo)
+
+        <div style="flex-basis: 33.33%; padding: 5px;">
+
+            
+            <div style="flex-basis: 33.33%; padding: 5px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="margin-bottom: 10px;">
+                        <label style="text-align: center;">
+                            @Html.LabelFor(model => model.AñoFabricacion)
+                        </label>
+                    </div>
+                    @Html.TextBoxFor(model => model.AñoFabricacion, new { @class = "", @placeholder = "AñoFabricacion", @type = "date" })
+                </div>
             </div>
+        </div>
 
+        <div style="flex-basis: 33.33%; padding: 5px;">
+            <!-- Campos de la derecha -->
 
-            <div>
-                <label style="display: inline-block; width: 120px; text-align: right;">
-                    @Html.LabelFor(model => model.Marca)
-                </label>
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.Marca)
+                    </label>
+                </div>
                 @Html.TextBoxFor(model => model.Marca)
             </div>
 
-
-
-
-
-
-
-            <div style="text-align: left;">
-                <!-- Campos de la derecha -->
-
-                <div>
-                    <label style="display: inline-block; width: 120px; text-align: right;">
-                        @Html.LabelFor(model => model.AñoFabricacion)
-                    </label>
-
-                    @Html.TextBoxFor(model => model.AñoFabricacion, new { @class = "", @placeholder = "AñoFabricacion", @type = "date" })
-
-                </div>
-
-                <div>
-                    <label style="display: inline-block; width: 120px; text-align: right;">
-                        @Html.LabelFor(model => model.estatusTransporte.IdEstatus)
-                    </label>
+            <div style="flex-basis: 33.33%; padding: 5px;">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="margin-bottom: 10px;">
+                        <label style="text-align: center;">
+                            @Html.LabelFor(model => model.estatusTransporte.IdEstatus)
+                        </label>
+                    </div>
                     @Html.TextBoxFor(model => model.estatusTransporte.IdEstatus)
                 </div>
-
-                @*<div>
-                        <label style="display: inline-block; width: 120px; text-align: right;">
-                            @Html.LabelFor(model => model.estatusTransporte.Estatus)
-                        </label>
-                        @Html.TextBoxFor(model => model.estatusTransporte.Estatus)
-                    </div>*@
-
             </div>
 
+            @*<div>
+            <label style="display: inline-block; width: 120px; text-align: right;">
+                @Html.LabelFor(model => model.estatusTransporte.Estatus)
+            </label>
+            @Html.TextBoxFor(model => model.estatusTransporte.Estatus)
+        </div>*@
+
         </div>
-    </div><div style="text-align: center; margin-top: 20px;">
-        <button type="submit" style="padding: 5px 60px; font-size: 16px;">Save</button>
-    </div>
-}
+        </div>
+
+
+    <br /> <div style="text-align: center; margin-top: 20px;">
+            <button type="submit" style="padding: 5px 60px; font-size: 16px;" class="btn btn-outline-primary btn-s">Save</button>
+        </div>
+        }

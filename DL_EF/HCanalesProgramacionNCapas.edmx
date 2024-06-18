@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ElectronicosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AsignacionPaqueteRepartidor">
+          <Key>
+            <PropertyRef Name="IdAsignacion" />
+          </Key>
+          <Property Name="IdAsignacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdPaquete" Type="int" />
+          <Property Name="IdRepartidor" Type="int" />
+          <Property Name="FechaAsignacion" Type="datetime" />
+          <Property Name="TotalPaquetes" Type="int" />
+        </EntityType>
         <EntityType Name="Colonia">
           <Key>
             <PropertyRef Name="Id_Colonia" />
@@ -64,9 +74,9 @@
           <Property Name="Peso" Type="decimal" Precision="6" Scale="4" Nullable="false" />
           <Property Name="DireccionOrigen" Type="varchar" MaxLength="250" />
           <Property Name="DireccionEntrega" Type="varchar" MaxLength="250" />
-          <Property Name="FechaEstimadaEntrega" Type="date" Nullable="false" />
-          <Property Name="NumeroGuia" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="CodigoQR" Type="varchar" MaxLength="50" />
+          <Property Name="FechaEstimadaEntrega" Type="datetime" Nullable="false" />
+          <Property Name="NumeroGuia" Type="varchar" MaxLength="20" />
+          <Property Name="CodigoQR" Type="varchar(max)" />
         </EntityType>
         <EntityType Name="Repartidor">
           <Key>
@@ -115,6 +125,30 @@
           <Property Name="Id_Roll" Type="int" />
           <Property Name="Estatus" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK__Asignacio__IdPaq__662B2B3B">
+          <End Role="Paquete" Type="Self.Paquete" Multiplicity="0..1" />
+          <End Role="AsignacionPaqueteRepartidor" Type="Self.AsignacionPaqueteRepartidor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paquete">
+              <PropertyRef Name="IdPaquete" />
+            </Principal>
+            <Dependent Role="AsignacionPaqueteRepartidor">
+              <PropertyRef Name="IdPaquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asignacio__IdRep__671F4F74">
+          <End Role="Repartidor" Type="Self.Repartidor" Multiplicity="0..1" />
+          <End Role="AsignacionPaqueteRepartidor" Type="Self.AsignacionPaqueteRepartidor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repartidor">
+              <PropertyRef Name="IdRepartidor" />
+            </Principal>
+            <Dependent Role="AsignacionPaqueteRepartidor">
+              <PropertyRef Name="IdRepartidor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__Colonia__Id_Muni__45F365D3">
           <End Role="Municipio" Type="Self.Municipio" Multiplicity="0..1" />
           <End Role="Colonia" Type="Self.Colonia" Multiplicity="*" />
@@ -223,6 +257,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="f_GetByNumeroGuia" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="[GetByNumeroGuia">
+          <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="AddPaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="InstruccionEntrega" Type="varchar" Mode="In" />
           <Parameter Name="Peso" Type="decimal" Mode="In" />
@@ -230,7 +267,16 @@
           <Parameter Name="DireccionEntrega" Type="varchar" Mode="In" />
           <Parameter Name="FechaEstimadaEntrega" Type="date" Mode="In" />
           <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
-          <Parameter Name="CodigoQR" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="CodigoQR" Type="varchar(max)" Mode="In" />
+        </Function>
+        <Function Name="AddRepartidor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPMaterno" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="AsignarPaqueteRepartidor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdPaquete" Type="int" Mode="In" />
+          <Parameter Name="IdRepartidor" Type="int" Mode="In" />
         </Function>
         <Function Name="CambioEstatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdUsuario" Type="int" Mode="In" />
@@ -247,8 +293,14 @@
           <Parameter Name="DireccionEntrega" Type="varchar" Mode="In" />
           <Parameter Name="FechaEstimadaEntrega" Type="date" Mode="In" />
           <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
-          <Parameter Name="CodigoQR" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoQR" Type="varchar(max)" Mode="In" />
           <Parameter Name="IdRepartidor" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteRepartidor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdRepartidor" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPMaterno" Type="varchar" Mode="In" />
         </Function>
         <Function Name="EstadoGetByIdPais" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id_Pais" Type="int" Mode="In" />
@@ -257,9 +309,6 @@
         <Function Name="GetAllPaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetAllRepartidor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetAllTransporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="GetByCodigo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="CodigoQR" Type="varchar" Mode="In" />
-        </Function>
         <Function Name="GetByIdPaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdPaquete" Type="int" Mode="In" />
         </Function>
@@ -268,6 +317,11 @@
         </Function>
         <Function Name="GetbyidTransporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdTransporte" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetUltimoPaquete" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ModificarTotalPaquetes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdRepartidor" Type="int" Mode="In" />
+          <Parameter Name="Cantidad" Type="int" Mode="In" />
         </Function>
         <Function Name="MunicipioGetByIdEstado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Id_Estado" Type="int" Mode="In" />
@@ -296,11 +350,17 @@
           <Parameter Name="DireccionEntrega" Type="varchar" Mode="In" />
           <Parameter Name="FechaEstimadaEntrega" Type="date" Mode="In" />
           <Parameter Name="NumeroGuia" Type="varchar" Mode="In" />
-          <Parameter Name="CodigoQR" Type="varchar" Mode="In" />
+          <Parameter Name="CodigoQR" Type="varchar(max)" Mode="In" />
         </Function>
         <Function Name="UpdatePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Email" Type="varchar" Mode="In" />
           <Parameter Name="Password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="UpdateRepartidor" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdRepartidor" Type="int" Mode="In" />
+          <Parameter Name="Nombre" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPaterno" Type="varchar" Mode="In" />
+          <Parameter Name="ApellidoPMaterno" Type="varchar" Mode="In" />
         </Function>
         <Function Name="UpdateTransporte" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="IdTransporte" Type="int" Mode="In" />
@@ -377,6 +437,7 @@
           <Parameter Name="Id_Direccion" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="ElectronicosModelStoreContainer">
+          <EntitySet Name="AsignacionPaqueteRepartidor" EntityType="Self.AsignacionPaqueteRepartidor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Colonia" EntityType="Self.Colonia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Direccion" EntityType="Self.Direccion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estado" EntityType="Self.Estado" Schema="dbo" store:Type="Tables" />
@@ -388,6 +449,14 @@
           <EntitySet Name="Roll" EntityType="Self.Roll" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transporte" EntityType="Self.Transporte" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Asignacio__IdPaq__662B2B3B" Association="Self.FK__Asignacio__IdPaq__662B2B3B">
+            <End Role="Paquete" EntitySet="Paquete" />
+            <End Role="AsignacionPaqueteRepartidor" EntitySet="AsignacionPaqueteRepartidor" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asignacio__IdRep__671F4F74" Association="Self.FK__Asignacio__IdRep__671F4F74">
+            <End Role="Repartidor" EntitySet="Repartidor" />
+            <End Role="AsignacionPaqueteRepartidor" EntitySet="AsignacionPaqueteRepartidor" />
+          </AssociationSet>
           <AssociationSet Name="FK__Colonia__Id_Muni__45F365D3" Association="Self.FK__Colonia__Id_Muni__45F365D3">
             <End Role="Municipio" EntitySet="Municipio" />
             <End Role="Colonia" EntitySet="Colonia" />
@@ -579,15 +648,6 @@
           <FunctionImport Name="GetByIdRepartidor" ReturnType="Collection(ElectronicosModel.GetByIdRepartidor_Result)">
           <Parameter Name="IdRepartidor" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="AddPaquete">
-            <Parameter Name="InstruccionEntrega" Mode="In" Type="String" />
-            <Parameter Name="Peso" Mode="In" Type="Decimal" />
-            <Parameter Name="DireccionOrigen" Mode="In" Type="String" />
-            <Parameter Name="DireccionEntrega" Mode="In" Type="String" />
-            <Parameter Name="FechaEstimadaEntrega" Mode="In" Type="DateTime" />
-            <Parameter Name="NumeroGuia" Mode="In" Type="String" />
-            <Parameter Name="CodigoQR" Mode="In" Type="Binary" />
-          </FunctionImport>
           <FunctionImport Name="GetAllPaquete" ReturnType="Collection(ElectronicosModel.GetAllPaquete_Result)" />
           <FunctionImport Name="GetByIdPaquete" ReturnType="Collection(ElectronicosModel.GetByIdPaquete_Result)">
           <Parameter Name="IdPaquete" Mode="In" Type="Int32" />
@@ -624,7 +684,54 @@
           <Parameter Name="CodigoQR" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="UsuarioByEmail" ReturnType="Collection(ElectronicosModel.UsuarioByEmail_Result)">
-            <Parameter Name="Email" Mode="In" Type="String" />
+          <Parameter Name="Email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddPaquete">
+            <Parameter Name="InstruccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="Peso" Mode="In" Type="Decimal" />
+            <Parameter Name="DireccionOrigen" Mode="In" Type="String" />
+            <Parameter Name="DireccionEntrega" Mode="In" Type="String" />
+            <Parameter Name="FechaEstimadaEntrega" Mode="In" Type="DateTime" />
+            <Parameter Name="NumeroGuia" Mode="In" Type="String" />
+            <Parameter Name="CodigoQR" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="f_GetByNumeroGuia" ReturnType="Collection(ElectronicosModel.f_GetByNumeroGuia_Result)">
+          <Parameter Name="NumeroGuia" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetUltimoPaquete" ReturnType="Collection(ElectronicosModel.GetUltimoPaquete_Result)" />
+          <FunctionImport Name="AddRepartidor">
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPMaterno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteRepartidor">
+            <Parameter Name="IdRepartidor" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPMaterno" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="UpdateRepartidor">
+            <Parameter Name="IdRepartidor" Mode="In" Type="Int32" />
+            <Parameter Name="Nombre" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPaterno" Mode="In" Type="String" />
+            <Parameter Name="ApellidoPMaterno" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="AsignacionPaqueteRepartidors" EntityType="ElectronicosModel.AsignacionPaqueteRepartidor" />
+          <AssociationSet Name="FK__Asignacio__IdPaq__662B2B3B" Association="ElectronicosModel.FK__Asignacio__IdPaq__662B2B3B">
+            <End Role="Paquete" EntitySet="Paquetes" />
+            <End Role="AsignacionPaqueteRepartidor" EntitySet="AsignacionPaqueteRepartidors" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Asignacio__IdRep__671F4F74" Association="ElectronicosModel.FK__Asignacio__IdRep__671F4F74">
+            <End Role="Repartidor" EntitySet="Repartidors" />
+            <End Role="AsignacionPaqueteRepartidor" EntitySet="AsignacionPaqueteRepartidors" />
+          </AssociationSet>
+          <FunctionImport Name="AsignarPaqueteRepartidor">
+            <Parameter Name="IdPaquete" Mode="In" Type="Int32" />
+            <Parameter Name="IdRepartidor" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ModificarTotalPaquetes">
+            <Parameter Name="IdRepartidor" Mode="In" Type="Int32" />
+            <Parameter Name="Cantidad" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Estado">
@@ -972,6 +1079,7 @@
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="ApellidoPMaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AsignacionPaqueteRepartidors" Relationship="ElectronicosModel.FK__Asignacio__IdRep__671F4F74" FromRole="Repartidor" ToRole="AsignacionPaqueteRepartidor" />
         </EntityType>
         <ComplexType Name="GetAllRepartidor_Result">
           <Property Type="Int32" Name="IdRepartidor" Nullable="false" />
@@ -988,9 +1096,10 @@
           <Property Name="Peso" Type="Decimal" Nullable="false" Precision="6" Scale="4" />
           <Property Name="DireccionOrigen" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="DireccionEntrega" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="FechaEstimadaEntrega" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="NumeroGuia" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="CodigoQR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaEstimadaEntrega" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="NumeroGuia" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CodigoQR" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AsignacionPaqueteRepartidors" Relationship="ElectronicosModel.FK__Asignacio__IdPaq__662B2B3B" FromRole="Paquete" ToRole="AsignacionPaqueteRepartidor" />
         </EntityType>
         <ComplexType Name="GetByCodigo_Result">
           <Property Type="Int32" Name="IdPaquete" Nullable="false" />
@@ -1009,6 +1118,62 @@
           <Property Type="Int32" Name="Id_Roll" Nullable="true" />
           <Property Type="String" Name="Nombre" Nullable="false" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="f_GetByNumeroGuia_Result">
+          <Property Type="Int32" Name="IdPaquete" Nullable="false" />
+          <Property Type="String" Name="InstruccionEntrega" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Peso" Nullable="false" Precision="6" Scale="4" />
+          <Property Type="String" Name="DireccionOrigen" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DireccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="FechaEstimadaEntrega" Nullable="false" />
+          <Property Type="String" Name="NumeroGuia" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CodigoQR" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetUltimoPaquete_Result">
+          <Property Type="Int32" Name="IdPaquete" Nullable="false" />
+          <Property Type="String" Name="InstruccionEntrega" Nullable="false" MaxLength="250" />
+          <Property Type="Decimal" Name="Peso" Nullable="false" Precision="6" Scale="4" />
+          <Property Type="String" Name="DireccionOrigen" Nullable="true" MaxLength="250" />
+          <Property Type="String" Name="DireccionEntrega" Nullable="true" MaxLength="250" />
+          <Property Type="DateTime" Name="FechaEstimadaEntrega" Nullable="false" Precision="23" />
+          <Property Type="String" Name="NumeroGuia" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="CodigoQR" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="AsignacionPaqueteRepartidor">
+          <Key>
+            <PropertyRef Name="IdAsignacion" />
+          </Key>
+          <Property Name="IdAsignacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPaquete" Type="Int32" />
+          <Property Name="IdRepartidor" Type="Int32" />
+          <Property Name="FechaAsignacion" Type="DateTime" Precision="3" />
+          <Property Name="TotalPaquetes" Type="Int32" />
+          <NavigationProperty Name="Paquete" Relationship="ElectronicosModel.FK__Asignacio__IdPaq__662B2B3B" FromRole="AsignacionPaqueteRepartidor" ToRole="Paquete" />
+          <NavigationProperty Name="Repartidor" Relationship="ElectronicosModel.FK__Asignacio__IdRep__671F4F74" FromRole="AsignacionPaqueteRepartidor" ToRole="Repartidor" />
+        </EntityType>
+        <Association Name="FK__Asignacio__IdPaq__662B2B3B">
+          <End Type="ElectronicosModel.Paquete" Role="Paquete" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.AsignacionPaqueteRepartidor" Role="AsignacionPaqueteRepartidor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Paquete">
+              <PropertyRef Name="IdPaquete" />
+            </Principal>
+            <Dependent Role="AsignacionPaqueteRepartidor">
+              <PropertyRef Name="IdPaquete" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Asignacio__IdRep__671F4F74">
+          <End Type="ElectronicosModel.Repartidor" Role="Repartidor" Multiplicity="0..1" />
+          <End Type="ElectronicosModel.AsignacionPaqueteRepartidor" Role="AsignacionPaqueteRepartidor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Repartidor">
+              <PropertyRef Name="IdRepartidor" />
+            </Principal>
+            <Dependent Role="AsignacionPaqueteRepartidor">
+              <PropertyRef Name="IdRepartidor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1272,7 +1437,6 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="AddPaquete" FunctionName="ElectronicosModel.Store.AddPaquete" />
           <FunctionImportMapping FunctionImportName="GetAllPaquete" FunctionName="ElectronicosModel.Store.GetAllPaquete">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ElectronicosModel.GetAllPaquete_Result">
@@ -1338,20 +1502,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetByCodigo" FunctionName="ElectronicosModel.Store.GetByCodigo">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ElectronicosModel.GetByCodigo_Result">
-                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
-                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
-                <ScalarProperty Name="Peso" ColumnName="Peso" />
-                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
-                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
-                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
-                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
-                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="UsuarioByEmail" FunctionName="ElectronicosModel.Store.UsuarioByEmail">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ElectronicosModel.UsuarioByEmail_Result">
@@ -1363,6 +1513,51 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddPaquete" FunctionName="ElectronicosModel.Store.AddPaquete" />
+          <FunctionImportMapping FunctionImportName="f_GetByNumeroGuia" FunctionName="ElectronicosModel.Store.f_GetByNumeroGuia">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.f_GetByNumeroGuia_Result">
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetUltimoPaquete" FunctionName="ElectronicosModel.Store.GetUltimoPaquete">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ElectronicosModel.GetUltimoPaquete_Result">
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="InstruccionEntrega" ColumnName="InstruccionEntrega" />
+                <ScalarProperty Name="Peso" ColumnName="Peso" />
+                <ScalarProperty Name="DireccionOrigen" ColumnName="DireccionOrigen" />
+                <ScalarProperty Name="DireccionEntrega" ColumnName="DireccionEntrega" />
+                <ScalarProperty Name="FechaEstimadaEntrega" ColumnName="FechaEstimadaEntrega" />
+                <ScalarProperty Name="NumeroGuia" ColumnName="NumeroGuia" />
+                <ScalarProperty Name="CodigoQR" ColumnName="CodigoQR" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddRepartidor" FunctionName="ElectronicosModel.Store.AddRepartidor" />
+          <FunctionImportMapping FunctionImportName="DeleteRepartidor" FunctionName="ElectronicosModel.Store.DeleteRepartidor" />
+          <FunctionImportMapping FunctionImportName="UpdateRepartidor" FunctionName="ElectronicosModel.Store.UpdateRepartidor" />
+          <EntitySetMapping Name="AsignacionPaqueteRepartidors">
+            <EntityTypeMapping TypeName="ElectronicosModel.AsignacionPaqueteRepartidor">
+              <MappingFragment StoreEntitySet="AsignacionPaqueteRepartidor">
+                <ScalarProperty Name="TotalPaquetes" ColumnName="TotalPaquetes" />
+                <ScalarProperty Name="FechaAsignacion" ColumnName="FechaAsignacion" />
+                <ScalarProperty Name="IdRepartidor" ColumnName="IdRepartidor" />
+                <ScalarProperty Name="IdPaquete" ColumnName="IdPaquete" />
+                <ScalarProperty Name="IdAsignacion" ColumnName="IdAsignacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AsignarPaqueteRepartidor" FunctionName="ElectronicosModel.Store.AsignarPaqueteRepartidor" />
+          <FunctionImportMapping FunctionImportName="ModificarTotalPaquetes" FunctionName="ElectronicosModel.Store.ModificarTotalPaquetes" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

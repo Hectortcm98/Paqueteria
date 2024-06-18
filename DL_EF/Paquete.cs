@@ -14,6 +14,12 @@ namespace DL_EF
     
     public partial class Paquete
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Paquete()
+        {
+            this.AsignacionPaqueteRepartidors = new HashSet<AsignacionPaqueteRepartidor>();
+        }
+    
         public int IdPaquete { get; set; }
         public string InstruccionEntrega { get; set; }
         public decimal Peso { get; set; }
@@ -22,5 +28,8 @@ namespace DL_EF
         public System.DateTime FechaEstimadaEntrega { get; set; }
         public string NumeroGuia { get; set; }
         public string CodigoQR { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AsignacionPaqueteRepartidor> AsignacionPaqueteRepartidors { get; set; }
     }
 }

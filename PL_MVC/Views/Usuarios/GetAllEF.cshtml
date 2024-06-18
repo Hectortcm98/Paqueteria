@@ -7,7 +7,7 @@
 
 <style>
     body {
-        background-color: #89BCB0; /* Color de fondo deseado */
+        background-color: #d6eafa; /* Color de fondo deseado */
     }
 
     h2 {
@@ -16,13 +16,13 @@
 </style>
 
 
-
-
 <h2>Tabla de los Usuarios registrados</h2>
+<br />
 
 @*<form action="@Url.Action("CerrarSesion", "Usuarios")" method="post">
-    <button type="submit">Cerrar sesión</button>
-</form>*@
+        <button type="submit">Cerrar sesión</button>
+    </form>*@
+
 
 <div>
     @using (Html.BeginForm("GetAllEF", "Usuarios", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -30,101 +30,114 @@
         <div style="display: flex; align-items: center;">
             <div style="flex-grow: 1;">
                 @Html.LabelFor(model => model.Nombre)
-                @Html.TextBoxFor(model => model.Nombre)
-
+                @Html.TextBoxFor(model => model.Nombre, new { id = "nombre" })
             </div>
             <div style="flex-grow: 1;">
                 @Html.LabelFor(model => model.ApellidoPaterno)
-                @Html.TextBoxFor(model => model.ApellidoPaterno)
-
+                @Html.TextBoxFor(model => model.ApellidoPaterno, new { id = "apellidoPaterno" })
             </div>
             <div style="flex-grow: 1;">
                 @Html.LabelFor(model => model.ApellidoMaterno)
-                @Html.TextBoxFor(model => model.ApellidoMaterno)
-
+                @Html.TextBoxFor(model => model.ApellidoMaterno, new { id = "apellidoMaterno" })
             </div>
             <div>
-                <input type="submit" value="Filtrar" style="font-size: 16px; padding: 5px 20px;" />
+                <input type="button" class="btn btn-outline-primary" value="Limpiar" onclick="limpiarCampos()" style="font-size: 16px; padding: 5px 20px;" />
+                <input type="submit" class="btn btn-outline-primary" value="Filtrar" style="font-size: 16px; padding: 5px 20px;" />
             </div>
         </div>
     }
 </div>
+<br />
 
 
 
 
-<table class="table table- table-hover table-bordered border border-primary  border-3">
-    <thead class="table-secondary">
-        <tr class="text-center">
-            <th>Editar</th>
-            <th>Estatus</th>
-            <th>Imagen</th>
-            <th>Nombre</th>
-            <th>UserName</th>
-            <th>Apellido Paterno</th>
-            <th>Apellido Materno</th>
-            <th>Email</th>
-            <th>Password</th>
-            <th>Fecha Nacimiento</th>
-            <th>Sexo</th>
-            <th>Telefono</th>
-            <th>Celular</th>
-            <th>CURP</th>
-            @*<th>Id_Roll</th>*@
-            <th>Nombre del Roll</th>
-            <th>Direccion</th>
-            <th>Eliminar</th>
-        </tr>
-    </thead>
-
-    @*<div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
-            <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
-        </div>*@
-    <tbody>
-
-        @foreach (ML.Usuario usuario in Model.Usuarios)
-        {
-
-            <tr class="text-center">
-                <td><a class="btn  btn-secondary" style="background-color: #FFFFFF;" href="@Url.Action("Form", "Usuarios" , new { idUsuario = usuario.IdUsuario}) "><img src="~/Imagen/editar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a></td>
-                <td>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="estadoUsuario_@usuario.IdUsuario" @(usuario.Estatus ? "checked" : "") onchange=" CambiarEstatus('@usuario.IdUsuario', this)" />
-                    </div>
-                </td>
-                <td>
-                    <div style="width: 80px; height: 80px; overflow: hidden; border-radius: 50%;">
-                        <img id="img" src="data:image/*;base64, @usuario.Imagen" width="80" height="80" class="mb-2" style="object-fit: cover;">
-                    </div>
-                </td>
-                <td>@usuario.Nombre</td>
-                <td>@usuario.UserName</td>
-                <td>@usuario.ApellidoPaterno</td>
-                <td>@usuario.ApellidoMaterno</td>
-                <td>@usuario.Email</td>
-                <td>@usuario.Password</td>
-                <td>@usuario.FechaNacimiento</td>
-                <td>@usuario.Sexo</td>
-                <td>@usuario.Telefono</td>
-                <td>@usuario.Celular</td>
-                <td>@usuario.CURP</td>
-                @*<td>@usuario.Roll.Id_Roll</td>*@
-                <td>@usuario.Roll.NombreRoll</td>
-                <td>
-                    @usuario.Direccion.Calle,@usuario.Direccion.NumeroInterior,@usuario.Direccion.NumeroExteriror,@usuario.Direccion.Colonia.NombreColonia,
-                    @usuario.Direccion.Colonia.Municipio.NombreMunicipio,@usuario.Direccion.Colonia.Municipio.Estado.NombreEstado,
-                    @usuario.Direccion.Colonia.Municipio.Estado.Pais.NombrePais
-                </td>
-                <td>
-                    <a class="btn  btn-primary" style="background-color: #FFFFFF;" onclick="return confirm('¿Estás seguro de que deseas eliminar este Usuario?');"
-                       href="@Url.Action("Delete", "Usuarios" , new { idUsuario = usuario.IdUsuario})"><img src="~/Imagen/eliminar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
-                </td>
+@if (Model.Usuarios != null && Model.Usuarios.Any())
+{
+    <table class="table table- table-hover table-bordered border border-primary  border-3">
+        <thead class="table-secondary">
+            <tr class="text-center" style="font-size: smaller;">
+                <th style="font-size: smaller;">Editar</th>
+                <th style="font-size: smaller;">Estatus</th>
+                <th style="font-size: smaller;">Imagen</th>
+                <th style="font-size: smaller;">Nombre</th>
+                <th style="font-size: smaller;">UserName</th>
+                <th style="font-size: smaller;">Email</th>
+                <th style="font-size: smaller;">Fecha Nacimiento</th>
+                <th style="font-size: smaller;">Sexo</th>
+                <th style="font-size: smaller;">Contactos</th>
+                <th style="font-size: smaller;">CURP</th>
+                <th style="font-size: smaller;">Direccion</th>
+                <th style="font-size: smaller;">Eliminar</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
 
+        @*<div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox input</label>
+            </div>*@
+        <tbody>
+
+
+            @foreach (ML.Usuario usuario in Model.Usuarios)
+            {
+
+                <tr class="text-center">
+                    <td style="vertical-align: middle;">
+                        <a class="btn  btn-secondary" style="background-color: #FFFFFF;" href="@Url.Action("Form", "Usuarios" , new { idUsuario = usuario.IdUsuario}) ">
+                            <img src="~/Imagen/editar.png" alt="Eliminar" style="width: 25px; height: 25px;" />
+                        </a>
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <div class="form-check form-switch d-flex justify-content-center align-items-center">
+                            <input class="form-check-input" type="checkbox" id="estadoUsuario_@usuario.IdUsuario" @(usuario.Estatus ? "checked" : "") onchange=" CambiarEstatus('@usuario.IdUsuario', this)" />
+                        </div>
+                    </td>
+                    <td>
+                        <div style="width: 80px; height: 80px; overflow: hidden; border-radius: 50%;">
+                            <img id="img" src="data:image/*;base64, @usuario.Imagen" width="80" height="80" class="mb-2" style="object-fit: cover;">
+                        </div>
+                    </td>
+                    <td style="font-size: smaller;">@usuario.Nombre @usuario.ApellidoPaterno @usuario.ApellidoMaterno</td>
+                    <td style="font-size: smaller;">@usuario.UserName</td>
+                    <td style="font-size: smaller;">@usuario.Email</td>
+                    <td hidden>@usuario.Password</td>
+                    <td style="font-size: smaller;">@usuario.FechaNacimiento</td>
+                    <td style="font-size: smaller;">@usuario.Sexo</td>
+                    <td style="font-size: smaller;">
+                        Celular : @usuario.Celular
+                        Telefono :@usuario.Telefono
+                    </td>
+                    <td style="font-size: smaller;">@usuario.CURP</td>
+
+                    <td hidden>@usuario.Roll.NombreRoll</td>
+                    <td style="font-size: smaller;">
+                        @usuario.Direccion.Calle,@usuario.Direccion.NumeroInterior,@usuario.Direccion.NumeroExteriror,@usuario.Direccion.Colonia.NombreColonia,
+                        @usuario.Direccion.Colonia.Municipio.NombreMunicipio,@usuario.Direccion.Colonia.Municipio.Estado.NombreEstado,
+                        @usuario.Direccion.Colonia.Municipio.Estado.Pais.NombrePais
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <a class="btn btn-primary" style="background-color: #FFFFFF;" onclick="return confirm('¿Estás seguro de que deseas eliminar este Usuario?');"
+                           href="@Url.Action("Delete", "Usuarios" , new { idUsuario = usuario.IdUsuario})"><img src="~/Imagen/eliminar.png" alt="Eliminar" style="width: 25px; height: 25px;" /></a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <br />
+    <br />
+    <br />
+    <div style="text-align: center; position: relative;">
+        <img src="~/Imagen/ojo.png" alt="Imagen" style="width: 80px; height: auto;">
+        <div class="cloud">
+            <p style="color: aquamarine">"No hay ningún Usuario con esos datos"</p>
+        </div>
+    </div>
+}
 <div class="row">
     <div class="col-md-12">
         <a href="@Url.Action("Form", "Usuarios")" class="btn btn-primary float-right">Agregar</a>
@@ -150,3 +163,34 @@
         }
 </script>
 
+
+
+<style>
+    body {
+        background-color: #89BCB0; /* Color de fondo deseado */
+    }
+
+    /*Este estilo es para el mesaje de cuando no hay ningun paquete agregado a la vista */
+    .cloud {
+        position: absolute;
+        top: -40px; /* Ajusta la posición vertical de la nube */
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #AF3333;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+        .cloud p {
+            margin: 0;
+        }
+</style>
+
+<script>
+    function limpiarCampos() {
+        document.getElementById('nombre').value = '';
+        document.getElementById('apellidoPaterno').value = '';
+        document.getElementById('apellidoMaterno').value = '';
+    }
+</script>

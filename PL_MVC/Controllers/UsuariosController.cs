@@ -13,6 +13,8 @@ namespace PL_MVC.Controllers
 {
     public class UsuariosController : Controller
     {
+
+        
         // GET: Usuarios
         [HttpGet]
         public ActionResult GetAllEF()
@@ -47,8 +49,19 @@ namespace PL_MVC.Controllers
             usuarioBusqueda.ApellidoPaterno = (usuarioBusqueda.ApellidoPaterno == null) ? usuarioBusqueda.ApellidoPaterno = "" : usuarioBusqueda.ApellidoPaterno;
             usuarioBusqueda.ApellidoMaterno = (usuarioBusqueda.ApellidoMaterno == null) ? usuarioBusqueda.ApellidoMaterno = "" : usuarioBusqueda.ApellidoMaterno;
 
+            // Verificar si se ha proporcionado al menos un criterio de búsqueda
+            if (string.IsNullOrEmpty(usuarioBusqueda.Nombre) &&
+                string.IsNullOrEmpty(usuarioBusqueda.ApellidoPaterno) &&
+                string.IsNullOrEmpty(usuarioBusqueda.ApellidoMaterno))
+            {
+                ViewBag.Text = "Por favor ingrese al menos un criterio de búsqueda.";
+                return PartialView("Modal");
+            }
+
+
             var result = BL.Usuario.GetAllEF(usuarioBusqueda);
-            
+
+
             if (result.Item1)
             {
                 usuario = result.Item3;
@@ -56,11 +69,10 @@ namespace PL_MVC.Controllers
             }
             else
             {
-                usuario = new ML.Usuario();
-                return View(usuario);
-            }
-
-            
+                ViewBag.Text = "No se encontraron usuarios con los datos proporcionados.";
+                return PartialView("Modal");
+                
+            }   
             
         }
 

@@ -49,11 +49,12 @@ input {
 .login-form {
     background: rgba(0,0,0,0.7);
     box-shadow: 0 0 1rem rgba(0,0,0,0.3);
-    min-height: 10rem;
-    margin: auto;
-    max-width: 50%;
+    width: 300px; /* Ancho del formulario */
+    margin: auto; /* Centro el formulario en la página */
     padding: 2rem;
+    margin-bottom: 20px; /* Margen inferior para separar del siguiente elemento */
 }
+
 
 .login-text {
     color: white;

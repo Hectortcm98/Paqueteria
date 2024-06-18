@@ -5,19 +5,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-
-<style>
-    body {
-        background-color: #89BCB0; /* Color de fondo deseado */
-    }
-</style>
-<div style="text-align: center;">
+<div>
     <h2>Datos del Usuario</h2>
 </div>
 
+<br />
+<style>
+    body {
+        background-color: #d6eafa; /* Color de fondo deseado */
+    }
+
+    h2 {
+        text-align: center;
+    }
+</style>
+
+
+
+@*<div style="text-align: right;">
+    <a href="@Url.Action("GetAllEF", "Usuarios")" class="btn btn-primary float-right" id="btnRegresar">Regresar</a>
+</div>*@
 
 <div style="text-align: right;">
-    <a href="@Url.Action("GetAllEF", "Usuarios")" class="btn btn-primary float-right" id="btnRegresar">Regresar</a>
+    <a href="@Url.Action("GetAllEF", "Usuarios")" float-right" id="btnRegresar">
+        <img src="~/Imagen/devolver.png" style="width: 45px; height: 45px;" />
+    </a>
 </div>
 
 @using (Html.BeginForm("Form", "Usuarios", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -353,7 +365,7 @@
 
 
     <div style="text-align: center; margin-top: 20px;">
-        <button type="submit" style="padding: 5px 60px; font-size: 16px;">Save</button>
+        <button type="submit" style="padding: 5px 60px; font-size: 16px;" class="btn btn-outline-primary btn-s">Save</button>
     </div>
 
 
@@ -606,77 +618,77 @@
         }
     }
 
-   
+
 </script>
 
 
 @*<script>
-        function validarPassword(input, label) {
-        $(document.registration).ready(function () {
+            function validarPassword(input, label) {
+            $(document.registration).ready(function () {
 
-            $('input').keyup(function () {
-                // set password variable
-                var password = $(this).val();
-                var p1 = document.getElementById("lblpassword1").value;
-                var p2 = document.getElementById("lblpassword2").value;
-                var noValido = / /;
+                $('input').keyup(function () {
+                    // set password variable
+                    var password = $(this).val();
+                    var p1 = document.getElementById("lblpassword1").value;
+                    var p2 = document.getElementById("lblpassword2").value;
+                    var noValido = / /;
 
-                //validar longitud contraseña
-                if (password.length < 8) {
-                    $('#length').removeClass('valid').addClass('invalid');
-                } else {
-                    $('#length').removeClass('invalid').addClass('valid');
-                }
-                //validar letra
-                if (password.match(/[A-z]/)) {
-                    $('#letter').removeClass('invalid').addClass('valid');
-                } else {
-                    $('#letter').removeClass('valid').addClass('invalid');
-                }
+                    //validar longitud contraseña
+                    if (password.length < 8) {
+                        $('#length').removeClass('valid').addClass('invalid');
+                    } else {
+                        $('#length').removeClass('invalid').addClass('valid');
+                    }
+                    //validar letra
+                    if (password.match(/[A-z]/)) {
+                        $('#letter').removeClass('invalid').addClass('valid');
+                    } else {
+                        $('#letter').removeClass('valid').addClass('invalid');
+                    }
 
-                //validar letra mayúscula
-                if (password.match(/[A-Z]/)) {
-                    $('#capital').removeClass('invalid').addClass('valid');
-                } else {
-                    $('#capital').removeClass('valid').addClass('invalid');
-                }
+                    //validar letra mayúscula
+                    if (password.match(/[A-Z]/)) {
+                        $('#capital').removeClass('invalid').addClass('valid');
+                    } else {
+                        $('#capital').removeClass('valid').addClass('invalid');
+                    }
 
-                //validar numero
-                if (password.match(/\d/)) {
-                    $('#number').removeClass('invalid').addClass('valid');
-                } else {
-                    $('#number').removeClass('valid').addClass('invalid');
-                }
+                    //validar numero
+                    if (password.match(/\d/)) {
+                        $('#number').removeClass('invalid').addClass('valid');
+                    } else {
+                        $('#number').removeClass('valid').addClass('invalid');
+                    }
 
-                //validar confirmación contraseña
-                if (p1.length == 0 || p2.length == 0) {
-                    $('#null').removeClass('valid').addClass('invalid');
-                } else {
-                    $('#null').removeClass('invalid').addClass('valid');
-                }
+                    //validar confirmación contraseña
+                    if (p1.length == 0 || p2.length == 0) {
+                        $('#null').removeClass('valid').addClass('invalid');
+                    } else {
+                        $('#null').removeClass('invalid').addClass('valid');
+                    }
 
-                //validar contraseñas cohincidan
-                if (p1 != p2) {
-                    $('#match').removeClass('valid').addClass('invalid');
-                } else {
-                    $('#match').removeClass('invalid').addClass('valid');
-                }
+                    //validar contraseñas cohincidan
+                    if (p1 != p2) {
+                        $('#match').removeClass('valid').addClass('invalid');
+                    } else {
+                        $('#match').removeClass('invalid').addClass('valid');
+                    }
 
-                if (noValido.test(p1 || p2)) { // se chequea el regex de que el string no tenga espacio
-                    $('#blank').removeClass('valid').addClass('invalid');
-                } else {
-                    $('#blank').removeClass('invalid').addClass('valid');
-                }
+                    if (noValido.test(p1 || p2)) { // se chequea el regex de que el string no tenga espacio
+                        $('#blank').removeClass('valid').addClass('invalid');
+                    } else {
+                        $('#blank').removeClass('invalid').addClass('valid');
+                    }
 
-            }).focus(function () {
-                $('#pswd_info').show();
-            }).blur(function () {
-                $('#pswd_info').hide();
+                }).focus(function () {
+                    $('#pswd_info').show();
+                }).blur(function () {
+                    $('#pswd_info').hide();
+                });
+
             });
-
-        });
-        }
-</script>*@
+            }
+    </script>*@
 
 
 

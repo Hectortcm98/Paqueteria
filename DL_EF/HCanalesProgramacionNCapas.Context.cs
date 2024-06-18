@@ -38,6 +38,7 @@ namespace DL_EF
         public virtual DbSet<Usuario> Usuarios { get; set; }
         public virtual DbSet<Repartidor> Repartidors { get; set; }
         public virtual DbSet<Paquete> Paquetes { get; set; }
+        public virtual DbSet<AsignacionPaqueteRepartidor> AsignacionPaqueteRepartidors { get; set; }
     
         public virtual ObjectResult<RollGetAll_Result> RollGetAll()
         {
@@ -433,39 +434,6 @@ namespace DL_EF
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetByIdRepartidor_Result>("GetByIdRepartidor", idRepartidorParameter);
         }
     
-        public virtual int AddPaquete(string instruccionEntrega, Nullable<decimal> peso, string direccionOrigen, string direccionEntrega, Nullable<System.DateTime> fechaEstimadaEntrega, string numeroGuia, byte[] codigoQR)
-        {
-            var instruccionEntregaParameter = instruccionEntrega != null ?
-                new ObjectParameter("InstruccionEntrega", instruccionEntrega) :
-                new ObjectParameter("InstruccionEntrega", typeof(string));
-    
-            var pesoParameter = peso.HasValue ?
-                new ObjectParameter("Peso", peso) :
-                new ObjectParameter("Peso", typeof(decimal));
-    
-            var direccionOrigenParameter = direccionOrigen != null ?
-                new ObjectParameter("DireccionOrigen", direccionOrigen) :
-                new ObjectParameter("DireccionOrigen", typeof(string));
-    
-            var direccionEntregaParameter = direccionEntrega != null ?
-                new ObjectParameter("DireccionEntrega", direccionEntrega) :
-                new ObjectParameter("DireccionEntrega", typeof(string));
-    
-            var fechaEstimadaEntregaParameter = fechaEstimadaEntrega.HasValue ?
-                new ObjectParameter("FechaEstimadaEntrega", fechaEstimadaEntrega) :
-                new ObjectParameter("FechaEstimadaEntrega", typeof(System.DateTime));
-    
-            var numeroGuiaParameter = numeroGuia != null ?
-                new ObjectParameter("NumeroGuia", numeroGuia) :
-                new ObjectParameter("NumeroGuia", typeof(string));
-    
-            var codigoQRParameter = codigoQR != null ?
-                new ObjectParameter("CodigoQR", codigoQR) :
-                new ObjectParameter("CodigoQR", typeof(byte[]));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddPaquete", instruccionEntregaParameter, pesoParameter, direccionOrigenParameter, direccionEntregaParameter, fechaEstimadaEntregaParameter, numeroGuiaParameter, codigoQRParameter);
-        }
-    
         public virtual ObjectResult<GetAllPaquete_Result> GetAllPaquete()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllPaquete_Result>("GetAllPaquete");
@@ -592,6 +560,138 @@ namespace DL_EF
                 new ObjectParameter("Email", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<UsuarioByEmail_Result>("UsuarioByEmail", emailParameter);
+        }
+    
+        public virtual int AddPaquete(string instruccionEntrega, Nullable<decimal> peso, string direccionOrigen, string direccionEntrega, Nullable<System.DateTime> fechaEstimadaEntrega, string numeroGuia, string codigoQR)
+        {
+            var instruccionEntregaParameter = instruccionEntrega != null ?
+                new ObjectParameter("InstruccionEntrega", instruccionEntrega) :
+                new ObjectParameter("InstruccionEntrega", typeof(string));
+    
+            var pesoParameter = peso.HasValue ?
+                new ObjectParameter("Peso", peso) :
+                new ObjectParameter("Peso", typeof(decimal));
+    
+            var direccionOrigenParameter = direccionOrigen != null ?
+                new ObjectParameter("DireccionOrigen", direccionOrigen) :
+                new ObjectParameter("DireccionOrigen", typeof(string));
+    
+            var direccionEntregaParameter = direccionEntrega != null ?
+                new ObjectParameter("DireccionEntrega", direccionEntrega) :
+                new ObjectParameter("DireccionEntrega", typeof(string));
+    
+            var fechaEstimadaEntregaParameter = fechaEstimadaEntrega.HasValue ?
+                new ObjectParameter("FechaEstimadaEntrega", fechaEstimadaEntrega) :
+                new ObjectParameter("FechaEstimadaEntrega", typeof(System.DateTime));
+    
+            var numeroGuiaParameter = numeroGuia != null ?
+                new ObjectParameter("NumeroGuia", numeroGuia) :
+                new ObjectParameter("NumeroGuia", typeof(string));
+    
+            var codigoQRParameter = codigoQR != null ?
+                new ObjectParameter("CodigoQR", codigoQR) :
+                new ObjectParameter("CodigoQR", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddPaquete", instruccionEntregaParameter, pesoParameter, direccionOrigenParameter, direccionEntregaParameter, fechaEstimadaEntregaParameter, numeroGuiaParameter, codigoQRParameter);
+        }
+    
+        public virtual ObjectResult<f_GetByNumeroGuia_Result> f_GetByNumeroGuia(string numeroGuia)
+        {
+            var numeroGuiaParameter = numeroGuia != null ?
+                new ObjectParameter("NumeroGuia", numeroGuia) :
+                new ObjectParameter("NumeroGuia", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<f_GetByNumeroGuia_Result>("f_GetByNumeroGuia", numeroGuiaParameter);
+        }
+    
+        public virtual ObjectResult<GetUltimoPaquete_Result> GetUltimoPaquete()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetUltimoPaquete_Result>("GetUltimoPaquete");
+        }
+    
+        public virtual int AddRepartidor(string nombre, string apellidoPaterno, string apellidoPMaterno)
+        {
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoPaternoParameter = apellidoPaterno != null ?
+                new ObjectParameter("ApellidoPaterno", apellidoPaterno) :
+                new ObjectParameter("ApellidoPaterno", typeof(string));
+    
+            var apellidoPMaternoParameter = apellidoPMaterno != null ?
+                new ObjectParameter("ApellidoPMaterno", apellidoPMaterno) :
+                new ObjectParameter("ApellidoPMaterno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddRepartidor", nombreParameter, apellidoPaternoParameter, apellidoPMaternoParameter);
+        }
+    
+        public virtual int DeleteRepartidor(Nullable<int> idRepartidor, string nombre, string apellidoPaterno, string apellidoPMaterno)
+        {
+            var idRepartidorParameter = idRepartidor.HasValue ?
+                new ObjectParameter("IdRepartidor", idRepartidor) :
+                new ObjectParameter("IdRepartidor", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoPaternoParameter = apellidoPaterno != null ?
+                new ObjectParameter("ApellidoPaterno", apellidoPaterno) :
+                new ObjectParameter("ApellidoPaterno", typeof(string));
+    
+            var apellidoPMaternoParameter = apellidoPMaterno != null ?
+                new ObjectParameter("ApellidoPMaterno", apellidoPMaterno) :
+                new ObjectParameter("ApellidoPMaterno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteRepartidor", idRepartidorParameter, nombreParameter, apellidoPaternoParameter, apellidoPMaternoParameter);
+        }
+    
+        public virtual int UpdateRepartidor(Nullable<int> idRepartidor, string nombre, string apellidoPaterno, string apellidoPMaterno)
+        {
+            var idRepartidorParameter = idRepartidor.HasValue ?
+                new ObjectParameter("IdRepartidor", idRepartidor) :
+                new ObjectParameter("IdRepartidor", typeof(int));
+    
+            var nombreParameter = nombre != null ?
+                new ObjectParameter("Nombre", nombre) :
+                new ObjectParameter("Nombre", typeof(string));
+    
+            var apellidoPaternoParameter = apellidoPaterno != null ?
+                new ObjectParameter("ApellidoPaterno", apellidoPaterno) :
+                new ObjectParameter("ApellidoPaterno", typeof(string));
+    
+            var apellidoPMaternoParameter = apellidoPMaterno != null ?
+                new ObjectParameter("ApellidoPMaterno", apellidoPMaterno) :
+                new ObjectParameter("ApellidoPMaterno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateRepartidor", idRepartidorParameter, nombreParameter, apellidoPaternoParameter, apellidoPMaternoParameter);
+        }
+    
+        public virtual int AsignarPaqueteRepartidor(Nullable<int> idPaquete, Nullable<int> idRepartidor)
+        {
+            var idPaqueteParameter = idPaquete.HasValue ?
+                new ObjectParameter("IdPaquete", idPaquete) :
+                new ObjectParameter("IdPaquete", typeof(int));
+    
+            var idRepartidorParameter = idRepartidor.HasValue ?
+                new ObjectParameter("IdRepartidor", idRepartidor) :
+                new ObjectParameter("IdRepartidor", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AsignarPaqueteRepartidor", idPaqueteParameter, idRepartidorParameter);
+        }
+    
+        public virtual int ModificarTotalPaquetes(Nullable<int> idRepartidor, Nullable<int> cantidad)
+        {
+            var idRepartidorParameter = idRepartidor.HasValue ?
+                new ObjectParameter("IdRepartidor", idRepartidor) :
+                new ObjectParameter("IdRepartidor", typeof(int));
+    
+            var cantidadParameter = cantidad.HasValue ?
+                new ObjectParameter("Cantidad", cantidad) :
+                new ObjectParameter("Cantidad", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ModificarTotalPaquetes", idRepartidorParameter, cantidadParameter);
         }
     }
 }

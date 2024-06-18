@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsignacionPaqueteRepartidor.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="Colonia.cs" />
     <Compile Include="Estado.cs" />

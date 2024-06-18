@@ -1,4 +1,5 @@
-﻿@model ML.Paquete
+﻿
+@model ML.Paquete
 
 @{
     ViewBag.Title = "Principal";
@@ -8,24 +9,18 @@
 <div class="row justify-content-center" style="margin-bottom: 90px;">
     <!-- Añade margen inferior al título -->
     <div class="col-md-8">
-        <h2 style="text-align: center;">Rastreo y seguimiento de Paquetes</h2>
+        <h1 style="text-align: center; color: #005a8d">Rastreo y seguimiento de Paquetes</h1>
     </div>
 </div>
 
-<script>
-    (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
-        key: "AIzaSyCSKBDdPPlfca_zTwyxKiicRQn1qfgRjLw",
-        v: "weekly",
-    });
-</script>
-
 <div class="row justify-content-center">
     <div class="col-md-4">
+        <!-- Ajusta el ancho de la columna -->
         <form action="@Url.Action("Principal", "Principal")" method="post">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" name="codigo" placeholder="Introduce el código del paquete" required>
+                <input type="text" class="form-control form-control-lg" name="NumeroGuia" placeholder="Introduce el número de rastreo" style="font-size: 16px;" required>
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Rastrear</button>
+                    <button class="btn btn-primary btn-lg" type="submit" id="btnBuscarPaquete">Rastrear</button> <!-- Ajusta el tamaño del botón -->
                 </div>
             </div>
         </form>
@@ -33,14 +28,31 @@
 </div>
 
 
+
+<style>
+    #map {
+        height: 300px;
+    }
+</style>
+
+<!-- Script para cargar la API de Google Maps -->
+<script>
+    (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
+        key: "AIzaSyCSKBDdPPlfca_zTwyxKiicRQn1qfgRjLw",
+        v: "weekly",
+    });
+</script>
+
+
 @if (Model != null)
 {
+
     <div class="row">
         <div class="col-md-3" style="width: calc(25% - 20px); margin-bottom: 20px;">
             <div class="card" style="background-color: #B8F0FE">
                 <img src="~/Imagen/cajaCaje_1.png" class="card-img-top" alt="...">
                 <div class="card-body" style="background-color: #B8F0FE">
-                    <h5 class="card-title">Paquete: @Model.IdPaquete</h5>
+                    <h5 class="card-title">Paquete:  @Model.IdPaquete</h5>
                     @Html.HiddenFor(Model => Model.IdPaquete)
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item fondo-azul-claro borde-azul-fuerte">Código:           @Model.CodigoQR</li>
@@ -49,87 +61,142 @@
                         <li class="list-group-item">Número de guía:   @Model.NumeroGuia</li>
                         <li class="list-group-item">Origen:           @Model.DireccionOrigen</li>
                         <li class="list-group-item">Entrega:          @Model.DireccionEntrega</li>
-                        <li class="list-group-item">Fecha de Entrega: @Model.FechaEstimadaEntrega</li>
+                        <li class="list-group-item">Fecha de Entrega: @Model.FechaEstimadaEntrega.ToString("yyyy/MM/dd")</li>
                     </ul>
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <!-- Mapa -->
+            <div id="map" style="height: 610px; width: 900px;"></div>
+        </div>
+
+        <form id="downloadForm" action="@Url.Action("GenerarPDF", "Principal")" method="post" style="position: relative;">
+            @Html.Hidden("paqueteId", Model.IdPaquete)
+            <button type="submit" class="btn btn-primary" style="position: absolute; top: -1000px; right: 20px;">Descargar PDF</button>
+        </form>
+
+
+
 
     </div>
 
-    <div id="map" class="border-top border-secondary border-3"></div>
 
-    <script>
-    function inicializarMapa() {
-        // Direcciones de origen y entrega del paquete
-        var direccionOrigen = "@Model.DireccionOrigen";
-        var direccionEntrega = "@Model.DireccionEntrega";
+    <script type="text/javascript">
+        let map;
+        let position;
 
-        // Hacer una llamada a la API de geocodificación para obtener las coordenadas de origen
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'address': direccionOrigen }, function (results, status) {
-            if (status === 'OK') {
-                console.log('Coordenadas de origen:', results[0].geometry.location);
-                var coordenadasOrigen = results[0].geometry.location;
+        async function initMap() {
+            var address = "@Model.DireccionOrigen"; // Utiliza la dirección de origen del paquete como dirección inicial para el mapa
 
-                // Hacer una llamada a la API de geocodificación para obtener las coordenadas de entrega
-                geocoder.geocode({ 'address': direccionEntrega }, function (results, status) {
-                    if (status === 'OK') {
-                        console.log('Coordenadas de entrega:', results[0].geometry.location);
-                        var coordenadasEntrega = results[0].geometry.location;
+            // Request needed libraries.
+            const { Map, Marker } = await google.maps.importLibrary("maps");
 
-                        // Configurar el mapa con las coordenadas de origen
-                        var mapOptions = {
-                            center: coordenadasOrigen,
-                            zoom: 8
-                        };
-                        var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
-
-                        // Agregar marcadores para las ubicaciones de origen y entrega
-                        var markerOrigen = new google.maps.Marker({
-                            position: coordenadasOrigen,
-                            map: map,
-                            title: 'Ubicación de origen'
-                        });
-
-                        var markerEntrega = new google.maps.Marker({
-                            position: coordenadasEntrega,
-                            map: map,
-                            title: 'Ubicación de entrega'
-                        });
-                    } else {
-                        alert('La geocodificación de la dirección de entrega falló debido a: ' + status);
+            if (address != "") {
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': address }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        position = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() };
+                        createMap(position);
+                        addMarkers(results[0].geometry.location);
                     }
                 });
             } else {
-                alert('La geocodificación de la dirección de origen falló debido a: ' + status);
+                position = { lat: 19.430570307662446, lng: -99.16166352568936 };
+                createMap(position);
             }
-        });
-    }
-    </script>
+        }
 
+        function createMap(position) {
+            // The map, centered at the specified position
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 14,
+                center: position,
+                mapId: "DEMO_MAP_ID",
+            });
 
+            let infoWindow = new google.maps.InfoWindow({
+                content: "Presiona la locación",
+                position: position,
+            });
 
+            infoWindow.open(map);
+        }
 
+        function addMarkers(location) {
+    // Añadir marcadores para la dirección de origen y entrega
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ 'address': '@Model.DireccionEntrega' }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            var originLatLng = results[0].geometry.location;
+            var markerOrigin = new google.maps.Marker({
+                position: originLatLng,
+                map: map,
+                title: "Origen",
+                icon: {
+                    url: 'https://maps.google.com/mapfiles/ms/micons/red-dot.png',
+                    scaledSize: new google.maps.Size(50, 50) // Tamaño del icono
+                }
+            });
+
+            // Crear una línea entre el origen y el destino
+            var lineCoordinates = [
+                { lat: originLatLng.lat(), lng: originLatLng.lng() },
+                { lat: location.lat(), lng: location.lng() }
+            ];
+
+            var line = new google.maps.Polyline({
+                path: lineCoordinates,
+                geodesic: true,
+                strokeColor: "#050606", // Color de la línea (rojo)
+                strokeOpacity: 1.0,
+                strokeWeight: 3, // Grosor de la línea (aumentado a 5)
+
+                map: map
+            });
+        }
+    });
+
+    var markerDestination = new google.maps.Marker({
+        position: location,
+        map: map,
+        title: "Destino",
+        icon: {
+            url: 'https://maps.google.com/mapfiles/ms/micons/green-dot.png',
+            scaledSize: new google.maps.Size(50, 50) // Tamaño del icono
+        }
+    });
 }
-else if (!string.IsNullOrEmpty(Request.Form["codigo"]))
+
+
+        initMap();
+    </script>
+}
+else if (!string.IsNullOrEmpty(Request.Form["NumeroGuia"]))
 {
-    <div class="row justify-content-center">
-        <div style="text-align: center;">
-            <img src="~/Imagen/ojo.png" alt="Imagen" style="width: 80px; height: auto;">
-            <div class="cloud">
-                <p style="color: aquamarine;">No se ha encontrado ningún paquete con este código.</p>
-            </div>
+    <br />
+    <br />
+
+    <div style="text-align: center; position: relative;">
+        <img src="~/Imagen/ojo.png" alt="Imagen" style="width: 80px; height: auto;">
+        <div class="cloud">
+            <p style="color: aquamarine">"No hay ningún paquete que visualizar"</p>
         </div>
     </div>
 }
 
+
 <style>
     body {
-        background-color: #89BCB0; /* Color de fondo deseado */
+        background-color: #d6eafa; /* Color de fondo deseado */
     }
 
+    /*Este estilo es para el mesaje de cuando no hay ningun paquete agregado a la vista */
     .cloud {
+        position: absolute;
+        top: -40px; /* Ajusta la posición vertical de la nube */
+        left: 50%;
+        transform: translateX(-50%);
         background-color: #AF3333;
         padding: 10px;
         border-radius: 10px;
@@ -141,6 +208,27 @@ else if (!string.IsNullOrEmpty(Request.Form["codigo"]))
         }
 </style>
 
+
+<script>
+    // Función para enviar el ID del paquete al controlador al hacer clic en el botón de descarga del PDF
+    document.querySelector("#downloadForm button").addEventListener("click", function () {
+        var paqueteId = document.querySelector("#paqueteId").value;
+        document.querySelector("#downloadForm input[name='paqueteId']").value = paqueteId;
+    });
+</script>
+
+
+@*<form id="captureScreenButton" action="@Url.Action("CapturarMapa", "Principal")" method="post">
+
+        <button type="submit" class="btn btn-primary">Capturar Pantalla</button>
+
+    </form>*@
+
+
+
+@*<footer>
+    <p>&copy; @DateTime.Now.Year Todos los derechos reservados.</p>
+</footer>*@
 
 
 

@@ -17,10 +17,10 @@ namespace ML
 
         public  string ApellidoPMaterno { get; set; }
 
-
         public List<ML.Repartidor> Repartidores { get; set; }
 
-       
+        public List<object> Repartidores2 { get; set; }
 
+        
     }
 }

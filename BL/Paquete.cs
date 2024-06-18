@@ -18,7 +18,7 @@ namespace BL
             {
                 using (DL_EF.ElectronicosEntities context = new DL_EF.ElectronicosEntities())
                 {
-                    int rowsAffected = context.AddPaquete(paquete.InstruccionEntrega, paquete.Peso, paquete.DireccionOrigen, paquete.DireccionEntrega, paquete.FechaEstimadaEntrega, paquete.NumeroGuia, null);
+                    int rowsAffected = context.AddPaquete(paquete.InstruccionEntrega, paquete.Peso, paquete.DireccionOrigen, paquete.DireccionEntrega, paquete.FechaEstimadaEntrega, paquete.NumeroGuia, paquete.CodigoQR);
 
                     if (rowsAffected > 0)
                     {
@@ -151,14 +151,14 @@ namespace BL
             return (false, null, null, null);
         }
 
-        public static (bool, string, ML.Paquete, Exception) GetByCodigoLINQ(string Codigo)
+        public static (bool, string, ML.Paquete, Exception) GetByNumeroGuia(string NumeroGuia)
         {
             ML.Paquete paquete = new ML.Paquete();
             try
             {
                 using (DL_EF.ElectronicosEntities context = new DL_EF.ElectronicosEntities())
                 {
-                    var query = (from obj in context.Paquetes where obj.CodigoQR.Equals(Codigo) select obj).Single();
+                    var query = (from obj in context.Paquetes where obj.NumeroGuia.Equals(NumeroGuia) select obj).Single();
 
 
                     if (query != null)
@@ -385,6 +385,48 @@ namespace BL
 
             }
         }
+
+
+
+        public static (bool, string, ML.Paquete, Exception) GetUltimoPaquete()
+        {
+            try
+            {
+                using (DL_EF.ElectronicosEntities context = new DL_EF.ElectronicosEntities())
+                {
+                    // Llamamos al procedimiento almacenado para obtener el último paquete
+                    var query = context.Database.SqlQuery<DL_EF.Paquete>("EXEC GetUltimoPaquete").SingleOrDefault();
+
+                    if (query != null)
+                    {
+                        // Aquí realizamos la conversión explícita entre los tipos de datos
+                        var paquete = new ML.Paquete
+                        {
+                            IdPaquete = query.IdPaquete,
+                            InstruccionEntrega = query.InstruccionEntrega,
+                            Peso = query.Peso,
+                            DireccionOrigen = query.DireccionOrigen,
+                            DireccionEntrega = query.DireccionEntrega,
+                            FechaEstimadaEntrega = query.FechaEstimadaEntrega,
+                            NumeroGuia = query.NumeroGuia,
+                            CodigoQR = query.CodigoQR
+                        };
+
+                        return (true, null, paquete, null);
+                    }
+                    else
+                    {
+                        return (false, "No se encontró ningún paquete en la base de datos.", null, null);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, "Ocurrió un error al obtener el paquete.", null, ex);
+            }
+        }
+
+
 
 
 

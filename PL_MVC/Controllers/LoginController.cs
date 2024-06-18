@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Mail;
+﻿using System.IO;
 using System.Net;
-using System.Web;
+using System.Net.Mail;
 using System.Web.Mvc;
 
 namespace PL_MVC.Controllers
@@ -41,24 +37,23 @@ namespace PL_MVC.Controllers
                 }
             }
 
-            // Si las credenciales son incorrectas o si hay algún otro error, redirige a la vista de inicio de sesión
-            ViewBag.ErrorMessage = "Correo electrónico o contraseña incorrectos.";
-            return View();
+            ViewBag.Text = "Los datos no son correctos";
+            return PartialView("Modal");
         }
-    
 
 
 
 
-    // GET: 
-    public ActionResult SendEmail_1()
+
+        // GET: 
+        public ActionResult SendEmail_1()
         {
 
             return View();
 
         }
 
-        public JsonResult Recuperar(string Email)
+        public ActionResult Recuperar(string Email)
         {
             var result = BL.Usuario.GetByEmail(Email);
 
@@ -96,25 +91,66 @@ namespace PL_MVC.Controllers
 
                 smtpClient.Send(mensaje);
 
-             
+
+
             }
             else
             {
-                //no enviar correo
-                //vista Modal, correo no existe
+                ViewBag.Text = "Los datos que proporcionaste son correctos";
+                return PartialView("Modal");
+
             }
 
-            return Json(new { success = true, redirectUrl = Url.Action("ResetPassword", "Login") });
+
+            ViewBag.Text = "Se ha mandado un mesaje a tu correo";
+            return PartialView("Modal");
 
         }
 
 
-        // GET: Login
-        public ActionResult ResetPassword()
+
+        // GET: Login/ResetPassword
+        public ActionResult ResetPassword(string email)
         {
+            ML.Usuario usuario = new ML.Usuario();
+            {
+                usuario.Email = email;
 
+            };
             return View();
+        }
 
+        // POST: Login/ResetPassword
+        [HttpPost]
+        public ActionResult ResetPassword(string email, string password, string confirm_password)
+        {
+            // Verificar si las contraseñas coinciden
+            if (password != confirm_password)
+            {
+                ViewBag.ErrorMessage = "Las contraseñas no coinciden.";
+                return View();
+            }
+
+            // Crear un objeto de usuario con la información proporcionada
+            ML.Usuario usuario = new ML.Usuario
+            {
+                Email = email,
+                Password = password
+            };
+
+            // Llamar al método para actualizar la contraseña en la capa de lógica de negocios
+            var result = BL.Usuario.UpdatePassword(usuario);
+
+            if (result.Item1)
+            {
+                ViewBag.Text = "La contraseña se ha actulizado correctamente";
+                return PartialView("Modal");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = result.Item2; // Mostrar el mensaje de error devuelto por el método de actualización
+                return View();
+            }
         }
 
     }

@@ -1,4 +1,5 @@
-﻿@model ML.Asignar
+﻿@model ML.AsignacionPaqueteRepartidor
+
 @{
     ViewBag.Title = "EnviarPaquetes";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -17,7 +18,7 @@
 
 
 
-@if (Model.Asignacion.Any(paquete => paquete.TotalPaquetes > 0))
+@if (Model.Asignaciones.Any(paquete => paquete.TotalPaquetes > 0))
 {
     <table class="table table-hover table-bordered border border-primary border-3">
         <thead>
@@ -32,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (ML.Asignar paquete in Model.Asignacion.Where(paquete => paquete.TotalPaquetes > 0))
+            @foreach (ML.AsignacionPaqueteRepartidor paquete in Model.Asignaciones.Where(paquete => paquete.TotalPaquetes > 0))
             {
                 <tr class="text-center align-middle">
                     <td><button class="plus-button" onclick="IncremetarPaquetes('@paquete.Repartidor.IdRepartidor')" style="background-color: #89BCB0;"></button></td>

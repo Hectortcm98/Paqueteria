@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsignacionPaqueteRepartidor.cs">
+      <DependentUpon>HCanalesProgramacionNCapas.tt</DependentUpon>
+    </Compile>
     <Compile Include="Class1.cs" />
     <Compile Include="Colonia.cs">
       <DependentUpon>HCanalesProgramacionNCapas.tt</DependentUpon>
@@ -78,6 +82,9 @@
     <Compile Include="EstatusTransporte.cs">
       <DependentUpon>HCanalesProgramacionNCapas.tt</DependentUpon>
     </Compile>
+    <Compile Include="f_GetByNumeroGuia_Result.cs">
+      <DependentUpon>HCanalesProgramacionNCapas.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetAllEstatusTransporte_Result.cs">
       <DependentUpon>HCanalesProgramacionNCapas.tt</DependentUpon>
     </Compile>
@@ -100,6 +107,9 @@
       <DependentUpon>HCanalesProgramacionNCapas.tt</DependentUpon>
     </Compile>
     <Compile Include="GetbyidTransporte_Result.cs">
+      <DependentUpon>HCanalesProgramacionNCapas.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetUltimoPaquete_Result.cs">
       <DependentUpon>HCanalesProgramacionNCapas.tt</DependentUpon>
     </Compile>
     <Compile Include="HCanalesProgramacionNCapas.Context.cs">

@@ -1,0 +1,343 @@
+﻿@{
+    ViewBag.Title = "ServicioACliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h1 style="margin-left: -30px; color: #005a8d "> <strong>Servicio al Cliente</strong></h1>
+<br />
+<br />
+
+<div style="display: flex; justify-content: flex-end;">
+    <div class="container1" style="margin-left: 0px">
+        <div class="additional-information">
+            <blockquote class="blockquote" style="font-size: 20px;">
+                <p class="mb-0"><strong>¿Tiene un número de rastreo? Encuentre su contacto</strong></p>
+            </blockquote>
+
+            <div class="col-md-6">
+                <form action="@Url.Action("Principal", "Principal")" method="post">
+                    <div class="input-group mb-md-4">
+                        <input type="text" class="form-control" name="NumeroGuia" placeholder="Ingresa el número de rastreo" style="font-size: 15px;" required>
+
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit" id="btnBuscarPaquete">Rastrear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <ul>
+                <p><strong>Su número de rastreo nos permite encontrar su paquete con todos los datos</strong></p>
+                <li style="margin-left: 30px;">Rastreo en tiempo real de tus paquetes</li>
+                <li style="margin-left: 30px;">Datos adiconales de cada paquete, (Dirección,QR,Descripción, etc)</li>
+                <li style="margin-left: 30px;">Mapa de dirección del paquete,(Origen y Entrega) </li>
+                @*<li style="margin-left: 30px;">Opciones de envío exprés</li>*@
+            </ul>
+            <hr style="border-top: .5px solid #333333; margin-top: 20px; margin-bottom: 20px;">
+            <ul>
+                <p><strong>¿No tiene número de rastreo?</strong></p>
+                <li style="margin-left: 30px;"><a href=http://localhost:60964/Paquetes/GetAll>Ver mi numero de Guia</a></li>
+                <li style="margin-left: 30px;"><a href=http://localhost:60964/ServicioCliente/PreguntasFrecuentes>Vea todas las Preguntas Frecuentes sobre el Rastreo </a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="container2" style="margin-right: 50px; margin-top: 50px;">
+
+        <div class="additional-information2">
+            <blockquote class="blockquote" style="font-size: 10px;">
+                <p class="mb-0"><strong>¿Tiene un número de rastreo? Encuentre su contacto</strong></p>
+            </blockquote>
+
+            <div class="col-md-6">
+                <form action="@Url.Action("Principal", "Principal")" method="post">
+                    <div class="input-group mb-md-4">
+                        <input type="text" class="form-control" name="NumeroGuia" placeholder="Ingresa el número de rastreo" style="font-size: 15px;" required>
+
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit" id="btnBuscarPaquete">Rastrear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <ul>
+                <p><strong>Su número d</strong></p>
+                <li style="margin-left: 30px;">Rastro</li>
+                @*<li style="margin-left: 30px;">Datos </li>
+                <li style="margin-left: 30px;">Mapa</li>*@
+                @*<li style="margin-left: 30px;">Opciones de envío exprés</li>*@
+            </ul>
+            <hr style="border-top: .5px solid #333333; margin-top: 10px; margin-bottom: 10px;">
+            <ul>
+                <p><strong>¿No tiene número de rastreo?</strong></p>
+                <li style="margin-left: 30px;"><a href=http://localhost:60964/Paquetes/GetAll>Ver mi numero de Guia</a></li>
+                @*<li style="margin-left: 30px;"><a href=http://localhost:60964/ServicioCliente/PreguntasFrecuentes>Vea todas las Preguntas Frecuentes sobre el Rastreo </a></li>*@
+
+            </ul>
+        </div>
+    </div>
+
+    <!--<div class="container2" style="margin-right: 50px; margin-bottom: 120px;">
+
+        <div class="additional-information2">
+            <blockquote class="blockquote" style="font-size: 10px;">
+                <p class="mb-0"><strong>¿Tiene un número de rastreo? Encuentre su contacto</strong></p>
+            </blockquote>
+
+            <div class="col-md-6">
+                <form action="@Url.Action("Principal", "Principal")" method="post">
+                    <div class="input-group mb-md-4">
+                        <input type="text" class="form-control" name="NumeroGuia" placeholder="Ingresa el número de rastreo" style="font-size: 15px;" required>
+
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit" id="btnBuscarPaquete">Rastrear</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <ul>
+                <p><strong>Su número d</strong></p>
+                <li style="margin-left: 30px;">Rastro</li>-->
+                @*<li style="margin-left: 30px;">Datos </li>
+                <li style="margin-left: 30px;">Mapa</li>*@
+                @*<li style="margin-left: 30px;">Opciones de envío exprés</li>*@
+            <!--</ul>
+            <hr style="border-top: .5px solid #333333; margin-top: 20px; margin-bottom: 20px;">
+            <ul>
+                <p><strong>¿No tiene número de rastreo?</strong></p>
+                <li style="margin-left: 30px;"><a href=http://localhost:60964/Paquetes/GetAll>Ver mi numero de Guia</a></li>-->
+                @*<li style="margin-left: 30px;"><a href=http://localhost:60964/ServicioCliente/PreguntasFrecuentes>Vea todas las Preguntas Frecuentes sobre el Rastreo </a></li>*@
+
+            <!--</ul>
+        </div>
+    </div>-->
+</div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d6eafa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container1 {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: initial;
+        }
+
+        header h1 {
+            color: #005a8d;
+            text-align: center;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .customer-service-info {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .additional-information {
+            flex: 1;
+            background-color: #f5f7f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .additional-information h2 {
+                color: #005a8d;
+                text-align: center;
+            }
+    </style>
+
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #d6eafa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container2 {
+            max-width: 400px;
+            max-height: 100px; /* Cambiar la altura según sea necesario */
+            margin: 0 auto;
+            padding: 0px;
+        }
+
+        header h1 {
+            color: #005a8d;
+            text-align: center;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .customer-service-info {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .additional-information2 {
+            flex: 1;
+            background-color: #f5f7f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+            .additional-information2 h2 {
+                color: #005a8d;
+                text-align: center;
+            }
+    </style>
+
+
+    <style>
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+        }
+    </style>
+
+
+
+
+
+    @*-----------------------------------------------------------FORMULARIO ATENCION A CLIENTE------------------------------------------------------------------------------------*@
+
+    <head>
+        <meta charset="utf-8">
+        <title>Servicio al Cliente</title>
+
+        <!-- Font Awesome -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <!-- Navbar Start -->
+        <div class="container-fluid p-0 nav-bar">
+
+        </div>
+
+        <div class="container-fluid page-header mb-5 position-relative overlay-bottom">
+
+        </div>
+
+
+        <div class="container-fluid pt-5 pb-3 bg-light">
+            <div class="container">
+                <div class="section-title text-center">
+                    <h2 class="text-primary text-uppercase mb-4">Servicio al Cliente</h2>
+                    <p class="text-muted">¡Estamos aquí para ayudarte! Contáctanos si tienes alguna pregunta o comentario sobre nuestros servicios.</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact-item text-center bg-white p-4 mb-4">
+                            <i class="fa fa-map-marker-alt fa-2x mb-3 text-primary"></i>
+                            <h4 class="font-weight-bold">Nuestra Ubicación</h4>
+                            <p>Av. Paseo de la Reforma 199, Col. Renacimiento, CP. 06500, Alcaldía Cuauhtémoc, CDMX.</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact-item text-center bg-white p-4 mb-4">
+                            <i class="fa fa-phone-alt fa-2x mb-3 text-primary"></i>
+                            <h4 class="font-weight-bold">Teléfono</h4>
+                            <p>52 66 34 50</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="contact-item text-center bg-white p-4 mb-4">
+                            <i class="far fa-envelope fa-2x mb-3 text-primary"></i>
+                            <h4 class="font-weight-bold">Correo Electrónico</h4>
+                            <p>contacto@digis01.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <!-- Columna del mapa -->
+                    <div class="col-lg-6">
+                        <!-- Mapa de Google Maps con las coordenadas proporcionadas -->
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.583973248309!2d-99.1638359850792!3d19.43036174685038!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f8ce0443ffff%3A0xef8b65afe38ede75!2sDigis01%20Soluciones%20Digitales!5e0!3m2!1sen!2smx!4v1630481707862!5m2!1sen!2smx" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="contact-form bg-white p-4">
+                            <h3 class="text-center mb-4">¡Contáctanos!</h3>
+                            <form id="contactForm" action="@Url.Action("EnviarCorreo", "ServicioCliente")" method="post" novalidate>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Tu Nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Tu Correo Electrónico" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Asunto" required>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="5" id="message" name="message" placeholder="Mensaje" required></textarea>
+                                </div>
+                                <br />
+                                <button type="submit" class="btn btn-outline-primary">Enviar Mensaje</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Footer End -->
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    </body>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('#contactForm').submit(function (event) {
+                event.preventDefault(); // Evitar que se envíe el formulario de forma predeterminada
+
+                // Obtener los datos del formulario
+                var formData = $(this).serialize();
+
+                // Enviar los datos al método EnviarCorreo del controlador
+                $.post($(this).attr('action'), formData, function (data) {
+                    // Manejar la respuesta si es necesario
+                    // Por ejemplo, mostrar un mensaje de éxito o redirigir a una página de agradecimiento
+                });
+            });
+        });
+    </script>
+
+
+
+
+    @*<footer>
+            <p>&copy; @DateTime.Now.Year Tu Proyecto de Envío de Paquetes. Todos los derechos reservados.</p>
+        </footer>*@

@@ -8,11 +8,6 @@ namespace ML
 {
     public class Asignar
     {
-        //public List<object> Paquetes { get; set; }
-        //public int TotalPaquetes { get; set; }
-        //public decimal Catidad { get; set; }
-        //public decimal Total { get; set; }
-
 
       
         public ML.Paquete Paquete { get; set; }

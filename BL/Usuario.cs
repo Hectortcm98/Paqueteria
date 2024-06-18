@@ -278,7 +278,7 @@ namespace BL
                 using (DL_EF.ElectronicosEntities context = new DL_EF.ElectronicosEntities())
 
                 {
-
+                    
                     var registros = context.Usuario_GetAll(usuarioBusqueda.Nombre, usuarioBusqueda.ApellidoPaterno, usuarioBusqueda.ApellidoMaterno).ToList();
 
                     if( registros.Count > 0 )
@@ -482,13 +482,6 @@ namespace BL
                         usuario.Roll = new ML.Roll();
                         usuario.Roll.Id_Roll = objUsuario.Id_Roll.Value;
                         usuario.Roll.NombreRoll = objUsuario.Nombre;
-                       
-
-                        
-
-                        
-                                             
-
 
                         return (true, null, usuario, null);
                     }
@@ -508,37 +501,36 @@ namespace BL
 
         public static (bool, string, ML.Usuario, Exception) UpdatePassword(ML.Usuario usuario)
         {
-            //  bool resultado = false;
             try
-
             {
                 using (DL_EF.ElectronicosEntities context = new DL_EF.ElectronicosEntities())
                 {
-                    var rowAffected = context.UpdatePassword( usuario.Email, usuario.Password);
+                    // Crear los parámetros para el procedimiento almacenado
+                    SqlParameter emailParam = new SqlParameter("@Email", usuario.Email);
+                    SqlParameter passwordParam = new SqlParameter("@Password", usuario.Password);
 
-                    new SqlParameter("@Email", usuario.Email);
-                    new SqlParameter("@Password", usuario.Password);
+                    // Llamar al procedimiento almacenado y obtener el número de filas afectadas
+                    int rowsAffected = context.Database.ExecuteSqlCommand("EXEC UpdatePassword @Email, @Password", emailParam, passwordParam);
 
-                    if (rowAffected > 0)
+                    if (rowsAffected > 0)
                     {
-                        // resultado = true;
+                        // La contraseña se actualizó correctamente
                         return (true, null, null, null);
-
                     }
                     else
                     {
-                        return(false, "No se encontro ningun usuario con este correo proporcionado", null, null);
+                        // No se encontró ningún usuario con el correo proporcionado
+                        return (false, "No se encontró ningún usuario con este correo proporcionado", null, null);
                     }
                 }
             }
-
             catch (Exception ex)
             {
-                return (false, ex.Message, null, ex); //En esta me sale un error, no me permite editar un usuario
+                // Ocurrió un error al intentar actualizar la contraseña
+                return (false, ex.Message, null, ex);
             }
-
-            
         }
+
 
         public static (bool, string, Exception) CambioEstatus (int IdUsuario, bool Estatus)
         {

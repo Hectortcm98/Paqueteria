@@ -1,0 +1,81 @@
+﻿@model ML.Repartidor
+
+@{
+    ViewBag.Title = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="text-align: center;">
+    <h2>Datos del Repartidor</h2>
+</div>
+
+<style>
+    body {
+        background-color: #d6eafa; /* Color de fondo deseado */
+    }
+</style>
+
+@*<div style="text-align: right;">
+    <a href="@Url.Action("GetAll", "Repartidor")" class="btn btn-primary float-right" id="btnRegresar">Regresar</a>
+</div>*@
+
+<div style="text-align: right;">
+    <a href="@Url.Action("GetAll", "Repartidor")" float-right" id="btnRegresar">
+        <img src="~/Imagen/devolver.png" style="width: 45px; height: 45px;" />
+    </a>
+</div>
+<br />
+<br />
+
+@using (Html.BeginForm("Form", "Repartidor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="display: flex; flex-wrap: wrap;">
+        <div style="flex-basis: 33.33%; padding: 5px;">
+
+            <!-- Campos de la izquierda -->
+
+
+            @Html.HiddenFor(model => model.IdRepartidor)
+
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.Nombre)
+                    </label>
+                </div>
+                @Html.TextBoxFor(model => model.Nombre)
+
+            </div>
+        </div>
+
+        <div style="flex-basis: 33.33%; padding: 5px;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="text-align: center;">
+                        @Html.LabelFor(model => model.ApellidoPaterno)
+                    </label>
+                </div>
+                @Html.TextBoxFor(model => model.ApellidoPaterno)
+            </div>
+        </div>
+
+        <div style="flex-basis: 33.33%; padding: 5px;">
+            <div style="display: flex; flex-direction: column; align-items: center;">
+                <div style="margin-bottom: 10px;">
+                    <label style="display: inline-block; width: 120px; text-align: right;">
+                        @Html.LabelFor(model => model.ApellidoPMaterno)
+                    </label>
+                </div>
+                @Html.TextBoxFor(model => model.ApellidoPMaterno)
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <br /> <div style="text-align: center; margin-top: 20px;">
+        <button type="submit" style="padding: 5px 60px; font-size: 16px;" class="btn btn-outline-primary btn-s">Save</button>
+    </div>
+}

@@ -4,7 +4,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>GetAllTransporte</h2>
+<h2>Transportes</h2>
+<br />
+<style>
+    body {
+        background-color: #d6eafa; /* Color de fondo deseado */
+    }
+    h2 {
+        text-align: center;
+    }
+</style>
 
 <table class="table table- table-hover table-bordered border border-primary  border-3">
 
@@ -26,8 +35,9 @@
         @foreach (ML.Transporte transporte in Model.Trasportes)
         {
             <tr class="text-center">
-                <td><a class="btn btn-secondary" style="background-color: #FFFFFF;" href="@Url.Action("Form", "Transporte" , new { idTransporte = transporte.IdTransporte}) "> <img src="~/Imagen/editar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
-                   </td>
+                <td>
+                    <a class="btn btn-secondary" style="background-color: #FFFFFF;" href="@Url.Action("Form", "Transporte" , new { idTransporte = transporte.IdTransporte}) "> <img src="~/Imagen/editar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
+                </td>
                 <td>@transporte.NumeroPlaca</td>
                 <td>@transporte.Modelo</td>
                 <td>@transporte.Marca</td>
@@ -37,17 +47,17 @@
 
 
                 <td>
-                    <a class="btn btn-primary"  style="background-color: #FFFFFF;" onclick="return confirm('¿Estás seguro de que deseas eliminar este transporte?');"
+                    <a class="btn btn-primary" style="background-color: #FFFFFF;" onclick="return confirm('¿Estás seguro de que deseas eliminar este transporte?');"
                        href="@Url.Action("Delete", "Transporte", new { idTransporte = transporte.IdTransporte})"><img src="~/Imagen/eliminar.png" alt="Eliminar" style="width: 30px; height: 30px;" /></a>
-                   
+
 
                 </td>
             </tr>
         }
     </tbody>
 </table>
-    <div class="row">
-        <div class="col-md-12">
-            <a href="@Url.Action("Form", "Transporte")" class="btn btn-primary float-right">Agregar</a>
-        </div>
+<div class="row">
+    <div class="col-md-12">
+        <a href="@Url.Action("Form", "Transporte")" class="btn btn-primary float-right">Agregar</a>
     </div>
+</div>

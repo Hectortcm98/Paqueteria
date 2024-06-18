@@ -23,7 +23,10 @@
         <AssociationConnector Association="ElectronicosModel.FK__Direccion__IdUsu__4AB81AF0" />
         <AssociationConnector Association="ElectronicosModel.fk_usuario_roll" />
         <EntityTypeShape EntityType="ElectronicosModel.Repartidor" Width="1.5" PointX="5.375" PointY="7.75" />
-        <EntityTypeShape EntityType="ElectronicosModel.Paquete" Width="1.5" PointX="3.375" PointY="7.5" />
+        <EntityTypeShape EntityType="ElectronicosModel.Paquete" Width="1.5" PointX="3.375" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ElectronicosModel.AsignacionPaqueteRepartidor" Width="1.5" PointX="7.625" PointY="7.75" />
+        <AssociationConnector Association="ElectronicosModel.FK__Asignacio__IdPaq__662B2B3B" />
+        <AssociationConnector Association="ElectronicosModel.FK__Asignacio__IdRep__671F4F74" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

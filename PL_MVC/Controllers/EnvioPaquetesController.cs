@@ -12,22 +12,22 @@ namespace PL_MVC.Controllers
         {
             if (Session["Asignar"] == null)
             {
-                ML.Asignar asignar = new ML.Asignar();
-                asignar.Asignacion = new List<ML.Asignar>();
+                ML.AsignacionPaqueteRepartidor asignar = new ML.AsignacionPaqueteRepartidor();
+                asignar.Asignaciones = new List<ML.AsignacionPaqueteRepartidor>();
 
                 return View(asignar);
             }
             else
             {
-                ML.Asignar asignar = new ML.Asignar();
-                asignar.Asignacion = new List<ML.Asignar>();
-                asignar.Asignacion = (List<ML.Asignar>)Session["Asignar"];
+                ML.AsignacionPaqueteRepartidor asignar = new ML.AsignacionPaqueteRepartidor();
+                asignar.Asignaciones = new List<ML.AsignacionPaqueteRepartidor>();
+                asignar.Asignaciones = (List<ML.AsignacionPaqueteRepartidor>)Session["Asignar"];
                 return View(asignar);
             }
         }
 
         [HttpPost]
-        public ActionResult AddToSession(ML.Asignar asignarAdd)
+        public ActionResult AddToSession(ML.AsignacionPaqueteRepartidor asignarAdd)
         {
 
 
@@ -39,8 +39,8 @@ namespace PL_MVC.Controllers
 
             bool exists = false;
 
-                ML.Asignar asignar = new ML.Asignar();
-                asignar.Asignacion = new List<ML.Asignar>();
+                ML.AsignacionPaqueteRepartidor asignar = new ML.AsignacionPaqueteRepartidor();
+                asignar.Asignaciones = new List<ML.AsignacionPaqueteRepartidor>();
                 asignar.Paquete = new ML.Paquete();
                 asignar.Repartidor = new ML.Repartidor();
 
@@ -51,19 +51,20 @@ namespace PL_MVC.Controllers
 
                 asignar.Paquete = result.Item3;
                 asignar.Repartidor = resultRepatidor.Item3;
+                BL.AsignacionPaqueteRepartidor.AddEF(asignarAdd.Paquete.IdPaquete, asignarAdd.Repartidor.IdRepartidor);
                 if (Session["Asignar"] == null)
                 {
                     asignar.TotalPaquetes = 1;
-                    asignar.Asignacion.Add(asignar);
+                    asignar.Asignaciones.Add(asignar);
 
-                    Session["Asignar"] = asignar.Asignacion;
-
+                    Session["Asignar"] = asignar.Asignaciones;
+                    //BL.AsignacionPaqueteRepartidor.AddEF(asignarAdd.Repartidor.IdRepartidor, asignarAdd.Paquete.IdPaquete);
 
                 }
                 else
                 {
                     GetAsignar(asignar);
-                    foreach (ML.Asignar paquete in asignar.Asignacion)
+                    foreach (ML.AsignacionPaqueteRepartidor paquete in asignar.Asignaciones)
                     {
                         if (asignarAdd.Repartidor.IdRepartidor == paquete.Repartidor.IdRepartidor)
                         {
@@ -78,13 +79,13 @@ namespace PL_MVC.Controllers
                     }
                     if (exists)
                     {
-                        Session["Asignar"] = asignar.Asignacion;
+                        Session["Asignar"] = asignar.Asignaciones;
                     }
                     else
                     {
                         asignar.TotalPaquetes = 1;
-                        asignar.Asignacion.Add(asignar);
-                        Session["Asignar"] = asignar.Asignacion;
+                        asignar.Asignaciones.Add(asignar);
+                        Session["Asignar"] = asignar.Asignaciones;
                     }
                 }      
 
@@ -94,52 +95,67 @@ namespace PL_MVC.Controllers
         }
 
           
-        public ML.Asignar GetAsignar(ML.Asignar asignar)
+        public ML.AsignacionPaqueteRepartidor GetAsignar(ML.AsignacionPaqueteRepartidor asignar)
         {
-            List<ML.Asignar> asignacion = (List<ML.Asignar>)Session["Asignar"];
+            List<ML.AsignacionPaqueteRepartidor> asignacion = (List<ML.AsignacionPaqueteRepartidor>)Session["Asignar"];
 
             foreach(var obj in asignacion)
             {
-                asignar.Asignacion.Add(obj);
+                asignar.Asignaciones.Add(obj);
             }
             return asignar;
         }
 
 
-        
 
         [HttpPost]
         public ActionResult IncremetarPaquetes(int repartidorId)
         {
-            var asignacion = (List<ML.Asignar>)Session["Asignar"];
+            var asignacion = (List<ML.AsignacionPaqueteRepartidor>)Session["Asignar"];
             if (asignacion != null)
             {
-                // Encuentra la asignación correspondiente al repartidorId y aumenta la cantidad de paquetes
+                // Encuentra la asignación correspondiente al repartidorId
                 var asignar = asignacion.FirstOrDefault(a => a.Repartidor.IdRepartidor == repartidorId);
                 if (asignar != null)
                 {
-                    asignar.TotalPaquetes++;
+                    // Aumenta la cantidad de paquetes asignados al repartidor en la base de datos
+                    var result = BL.AsignacionPaqueteRepartidor.ModificarCatidad(repartidorId, 1);
+                    if (result.Item1)
+                    {
+                        // Si la operación en la base de datos es exitosa, aumenta la cantidad de paquetes en la sesión
+                        asignar.TotalPaquetes++;
+                        Session["Asignar"] = asignacion;
+
+                        // Redirige a una vista de éxito
+                        ViewBag.Text = "Asignacion correcta";
+                        return PartialView("Modal");
+                    }
+                    else
+                    {
+                        // Si la operación en la base de datos falla, redirige a una vista de error
+                        return View("Error");
+                    }
                 }
-                Session["Asignar"] = asignacion;
             }
 
-            // indicador de éxito 
-            return Json(new { success = true });
+            // Si no se encuentra la asignación, o no hay asignaciones en la sesión, redirige a una vista de error
+            return View("Error");
         }
+
 
 
 
         [HttpPost]
         public ActionResult DisminuirPaquetes(int repartidorId)
         {
-            var asignacion = (List<ML.Asignar>)Session["Asignar"];
+            var asignacion = (List<ML.AsignacionPaqueteRepartidor>)Session["Asignar"];
             if (asignacion != null)
             {
                 // Encuentra la asignación correspondiente al repartidorId y disminuye la cantidad de paquetes
                 var asignar = asignacion.FirstOrDefault(a => a.Repartidor.IdRepartidor == repartidorId);
-
                 if (asignar != null)
                 {
+                    var result = BL.AsignacionPaqueteRepartidor.ModificarCatidad(repartidorId, -1);
                     asignar.TotalPaquetes--;
 
                     // Si la cantidad de paquetes llega a cero, se elimina la asignación de la lista

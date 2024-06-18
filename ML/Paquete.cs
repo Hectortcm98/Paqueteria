@@ -35,9 +35,10 @@ namespace ML
         public string DireccionEntrega { get; set; }
 
 
+     
         [Display(Name = "Fecha Estimada de Entrega")]
+        [DisplayFormat(DataFormatString = "{yyyy-MM-ddTHH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime FechaEstimadaEntrega { get; set; }
-
 
         [Display(Name = "Número Guía")]
         public string NumeroGuia { get; set; }

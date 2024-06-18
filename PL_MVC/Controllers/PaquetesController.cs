@@ -1,7 +1,9 @@
 ﻿using ML;
 using PL_MVC.ServiceReferencePaquete;
+using QRCoder;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Cryptography.X509Certificates;
@@ -10,6 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls.WebParts;
+
 
 namespace PL_MVC.Controllers
 {
@@ -110,7 +113,8 @@ namespace PL_MVC.Controllers
                 paquete.paqueteLista = resultado.Item3.ToList();
 
                 paquete.Repartidor = new Repartidor();
-                paquete.Repartidor.Repartidores = resultd.Item3.ToList();
+                paquete.Repartidor.Repartidores = resultd.Item3.Repartidores;
+                //paquete.Repartidor.Repartidores = resultd.Item3.tolis;
 
                 return View(paquete);
 
@@ -222,30 +226,30 @@ namespace PL_MVC.Controllers
                 //para mandar llamar a lo registro para editar por el id
 
                 ServiceReferencePaquete.IPaquetes client = new ServiceReferencePaquete.PaquetesClient();
-                var resultado = client.GetById(idPaquete.Value);      
-                    
-                        var resultadoPaquete = BL.Paquete.GetAllClient();
-                        paquete.paqueteLista = new List<ML.Paquete>();
-                        paqueteLis = resultadoPaquete.Item3;
-                        paquete.paqueteLista = paqueteLis;
-                        paquete.paqueteLista = resultadoPaquete.Item3;
+                var resultado = client.GetById(idPaquete.Value);
 
-                        return View(paquete);
+                var resultadoPaquete = BL.Paquete.GetAllClient();
+                paquete.paqueteLista = new List<ML.Paquete>();
+                paqueteLis = resultadoPaquete.Item3;
+                paquete.paqueteLista = paqueteLis;
+                paquete.paqueteLista = resultadoPaquete.Item3;
 
-                    }
-                    else
-                    {
-                        var resultado = BL.Paquete.GetAllClient();
-                        paquete.paqueteLista = new List<ML.Paquete>();
-                        paqueteLis = resultado.Item3;
-                        paquete.paqueteLista = paqueteLis;
-
-                        return View(paquete);
-                    
-                
+                return View(paquete);
 
             }
-           
+            else
+            {
+                var resultado = BL.Paquete.GetAllClient();
+                paquete.paqueteLista = new List<ML.Paquete>();
+                paqueteLis = resultado.Item3;
+                paquete.paqueteLista = paqueteLis;
+
+                return View(paquete);
+
+
+
+            }
+
 
         }
 
@@ -337,51 +341,87 @@ namespace PL_MVC.Controllers
 
         [HttpPost]
         public ActionResult Form(ML.Paquete paquete)
-
         {
-            //si es diferente de nulo el registro que enviare a editar que se cumpla la condicion para editarlo
-            if (paquete.IdPaquete != 0)
-            {
-                //  variable donde se guardata el registro, luego llamar a mi gunvion editar de mi modelo y madarle mi parametro
+            // Verifica si el paquete es nuevo
+            bool esNuevoPaquete = paquete.IdPaquete == 0;
 
+            // Si es un nuevo paquete, agrega el paquete a la base de datos
+            if (esNuevoPaquete)
+            {
+                // Agrega el paquete a la base de datos
+                ServiceReferencePaquete.PaquetesClient client = new ServiceReferencePaquete.PaquetesClient();
+                var result = client.Add(paquete);
+
+                // Verifica si se pudo agregar correctamente
+                if (result.Item1 != null)
+                {
+                    // Obtiene el último paquete agregado
+                    var ultimoPaqueteResult = BL.Paquete.GetUltimoPaquete();
+
+                    if (ultimoPaqueteResult.Item1)
+                    {
+                        var paqueteAgregado = ultimoPaqueteResult.Item3;
+
+                        // Genera el contenido para el código QR utilizando los datos del paquete recién agregado
+                        string contenidoQR = $"Número de guía: {paqueteAgregado.NumeroGuia}\n" +
+                                             $"Instrucción de entrega: {paqueteAgregado.InstruccionEntrega}\n" +
+                                             $"Peso: {paqueteAgregado.Peso} kg\n" +
+                                             $"Origen: {paqueteAgregado.DireccionOrigen}\n" +
+                                             $"Destino: {paqueteAgregado.DireccionEntrega}\n" +
+                                             $"Fecha estimada de entrega: {paqueteAgregado.FechaEstimadaEntrega.ToString("yyyy-MM-dd")}";
+
+                        // Genera un nombre único para el archivo del código QR utilizando la hora actual
+                        string nombreArchivoQR = $"QR{DateTime.Now.ToString("yyyyMMddHHmmss")}.png";
+
+                        // Ruta donde guardarás el archivo del código QR
+                        string rutaGuardarQR = $@"C:\Users\digis\Documents\Hector Antonio Canales Mejia\HCanalesProgramacionCapas\PL_MVC\Imagen\CodigosQr\{nombreArchivoQR}";
+
+                        // Genera el código QR y guárdalo en la ruta especificada
+                        GenerarCodigoQR(contenidoQR, rutaGuardarQR);
+
+                        // Actualiza la propiedad del paquete con la ruta del archivo del código QR
+                        paqueteAgregado.CodigoQR = nombreArchivoQR;
+
+                        // Actualiza el paquete en la base de datos con la ruta del código QR
+                        client.UpdateEF(paqueteAgregado);
+
+                        ViewBag.Text = "Paquete agregado exitosamente";
+                        return PartialView("Modal");
+                    }
+                    else
+                    {
+                        ViewBag.Text = ultimoPaqueteResult.Item2;
+                        return PartialView("Modal");
+                    }
+                }
+                else
+                {
+                    ViewBag.Text = "Fallo al agregar el paquete";
+                    return PartialView("Modal");
+                }
+            }
+            // Si es una actualización, realiza la actualización en la base de datos
+            else
+            {
                 var resultado = BL.Paquete.UpdateEF(paquete);
 
                 if (resultado.Item1)
                 {
-
                     ServiceReferencePaquete.PaquetesClient client = new ServiceReferencePaquete.PaquetesClient();
-
                     var result = client.UpdateEF(paquete);
 
-
-                    ViewBag.Text = "La actualizacion fue Exitosa";
+                    ViewBag.Text = "La actualización fue exitosa";
                     return PartialView("Modal");
-
                 }
-
                 else
                 {
-                    ViewBag.Text = "La actualizacion fracaso";
+                    ViewBag.Text = "La actualización fracasó";
                     return PartialView("Modal");
                 }
-
             }
-            else
-            {                
-
-                    ServiceReferencePaquete.PaquetesClient client = new ServiceReferencePaquete.PaquetesClient();
-
-                    var result = client.Add(paquete);
-
-
-                    ViewBag.Text = "Agregado Exitosamente";
-                    return PartialView("Modal");                           
-
-            }
-
-
         }
-    
+
+
 
         //------------------------------------Delete -----------------------------------------------------------------------------------------
 
@@ -470,6 +510,17 @@ namespace PL_MVC.Controllers
         }
 
 
+
+        // Método para generar el código QR y guardarlo en un archivo
+        public void GenerarCodigoQR(string contenido, string rutaGuardar)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(contenido, QRCodeGenerator.ECCLevel.Q);
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(20); // 20 es el tamaño de los módulos en píxeles
+
+            qrCodeImage.Save(rutaGuardar); // Guarda la imagen del código QR en la ruta especificada
+        }
 
 
     }
